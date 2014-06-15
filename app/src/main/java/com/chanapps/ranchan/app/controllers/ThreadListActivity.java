@@ -1,11 +1,23 @@
 package com.chanapps.ranchan.app.controllers;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SearchView;
+import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.views.ThreadDetailFragment;
 import com.chanapps.ranchan.app.views.ThreadListFragment;
+
+import java.util.List;
 
 
 /**
@@ -25,13 +37,15 @@ import com.chanapps.ranchan.app.views.ThreadListFragment;
  * to listen for item selections.
  */
 public class ThreadListActivity extends FragmentActivity
-        implements ThreadListFragment.Callbacks {
+        implements ThreadListFragment.Callbacks
+{
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +66,25 @@ public class ThreadListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, "query=[ " + query + " ]", Toast.LENGTH_SHORT).show();
+            if (menu != null) {
+                menu.findItem(R.id.menu_search).collapseActionView();
+            }
+            //doMySearch(query);
+
+        }
     }
 
     /**
@@ -79,6 +111,36 @@ public class ThreadListActivity extends FragmentActivity
             Intent detailIntent = new Intent(this, ThreadDetailActivity.class);
             detailIntent.putExtra(ThreadDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        this.menu = menu;
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add:
+                Toast.makeText(this, "open new thread dialog", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

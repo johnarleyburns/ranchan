@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+    <!-- for thread-list-only items -->
+    <group android:id="@+id/thread_list_group"
+            >
+        <item
+                android:id="@+id/menu_search"
+                android:title="@string/search"
+                android:icon="@drawable/search"
+                android:showAsAction="ifRoom|collapseActionView"
+                android:actionViewClass="android.widget.SearchView"
+                />
+        <item
+                android:id="@+id/menu_add"
+                android:title="@string/new_thread"
+                android:icon="@drawable/add"
+                android:showAsAction="ifRoom"
+                />
+    </group>
+
+    <!-- for thread-detail-only items -->
+    <group android:id="@+id/thread_detail_group"
+            >
+    </group>
+
+    <!-- for shared items -->
+    <group
+            android:id="@+id/thread_shared_group"
+            >
+        <item
+                android:id="@+id/menu_settings"
+                android:title="@string/settings"
+                android:icon="@drawable/gear"
+                android:showAsAction="never"
+                />
+    </group>
+
+
+</menu>

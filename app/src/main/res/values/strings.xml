@@ -2,6 +2,15 @@
 <resources>
 
     <string name="app_name">ranchan</string>
+    <string name="app_label">@string/app_name</string>
     <string name="title_thread_detail">Thread Detail</string>
+    <string name="search_hint"></string>
+    <string name="search">Search</string>
+    <string name="new_thread">New Thread</string>
+    <string name="settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nsfw">NSFW</string>
+    <string name="pref_adult_summary_on">Adult content is enabled</string>
+    <string name="pref_adult_summary_off">Adult content is hidden</string>
 
 </resources>

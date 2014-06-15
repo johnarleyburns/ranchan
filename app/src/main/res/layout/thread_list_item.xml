@@ -39,6 +39,15 @@
               android:textSize="@dimen/thread_chats"
               />
 
+    <ImageView android:id="@+id/thread_list_item_adult"
+            android:layout_width="@dimen/thread_icon"
+            android:layout_height="@dimen/thread_icon"
+            android:layout_marginBottom="@dimen/thread_icon_outer"
+            android:layout_marginRight="@dimen/thread_outer"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/heart"
+            />
+
     <TextView android:id="@+id/thread_list_item_chats"
               android:layout_width="@dimen/thread_right_minus_icon"
               android:layout_height="@dimen/thread_half"
@@ -52,12 +61,12 @@
             />
 
     <ImageView android:id="@+id/thread_list_item_icon"
-            android:layout_width="@dimen/thread_icon"
-            android:layout_height="@dimen/thread_icon"
-            android:layout_marginBottom="@dimen/thread_inner"
-            android:layout_marginRight="@dimen/thread_outer"
-            android:layout_gravity="right|bottom"
-            android:src="@drawable/speech_bubble"
+               android:layout_width="@dimen/thread_icon"
+               android:layout_height="@dimen/thread_icon"
+               android:layout_marginBottom="@dimen/thread_inner"
+               android:layout_marginRight="@dimen/thread_outer"
+               android:layout_gravity="right|bottom"
+               android:src="@drawable/speech_bubble"
             />
 
 </FrameLayout>

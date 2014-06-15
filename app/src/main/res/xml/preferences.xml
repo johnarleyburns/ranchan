@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+            android:key="pref_adult"
+            android:title="@string/nsfw"
+            android:summaryOn="@string/pref_adult_summary_on"
+            android:summaryOff="@string/pref_adult_summary_off"
+            android:defaultValue="false" />
+</PreferenceScreen>

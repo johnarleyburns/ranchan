@@ -36,7 +36,7 @@ public class ThreadContent {
         c.add(Calendar.HOUR_OF_DAY, -8);
         addItem(new ThreadItem("c96222a1-da6c-44b0-86c6-5fe17ddb41e8", "Porsche thread?  Porsche thread.", 53, c.getTime(), false));
         c.add(Calendar.HOUR_OF_DAY, -16);
-        addItem(new ThreadItem("19f13dc4-91cf-476a-9215-d76fe024e956", "hawt bods", 5, c.getTime(), true));
+        addItem(new ThreadItem("19f13dc4-91cf-476a-9215-d76fe024e956", "hawt bods", 5, c.getTime(), false));
         c.add(Calendar.HOUR_OF_DAY, -32);
         addItem(new ThreadItem("8cdd1917-e37b-4385-b777-123c0017e123", "black chicks", 78, c.getTime(), true));
         c.add(Calendar.HOUR_OF_DAY, -64);
@@ -46,7 +46,7 @@ public class ThreadContent {
         c.add(Calendar.HOUR_OF_DAY, -512);
         addItem(new ThreadItem("a2b18964-8b93-4074-a3a0-f56dfa180d68", "Please post in my thread.", 0, c.getTime(), false));
         c.add(Calendar.HOUR_OF_DAY, -10000);
-        addItem(new ThreadItem("f2b46979-13f5-4357-8379-bc4d4fc38a2e", "Bikini thread", 167, c.getTime(), false));
+        addItem(new ThreadItem("f2b46979-13f5-4357-8379-bc4d4fc38a2e", "Bikini thread", 167, c.getTime(), true));
     }
 
     private static void addItem(ThreadItem item) {

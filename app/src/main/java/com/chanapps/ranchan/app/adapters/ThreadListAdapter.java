@@ -24,6 +24,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadContent.ThreadItem> {
     private static final int CHATS_ID = R.id.thread_list_item_chats;
     private static final int DATE_ID = R.id.thread_list_item_date;
     private static final int THUMB_ID = R.id.thread_list_item_thumb;
+    private static final int ADULT_ID = R.id.thread_list_item_adult;
 
     public ThreadListAdapter(Context context, List<ThreadContent.ThreadItem> objects) {
         super(context, RESOURCE_ID, objects);
@@ -44,6 +45,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadContent.ThreadItem> {
         ((TextView) view.findViewById(CONTENT_ID)).setText(item.content);
         ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
+        view.findViewById(ADULT_ID).setVisibility(item.adult ? View.VISIBLE : View.INVISIBLE);
 
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
         thumb.setDefaultImageResId(R.drawable.pre_content);

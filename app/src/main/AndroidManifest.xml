@@ -2,32 +2,50 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chanapps.ranchan.app" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.chanapps.ranchan.app.application.RanchanApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-            android:name="com.chanapps.ranchan.app.application.RanchanApplication"
-            >
+        android:theme="@style/AppTheme" >
+
         <activity
-            android:name=".controllers.ThreadListActivity"
-            android:label="@string/app_name" >
+            android:name="com.chanapps.ranchan.app.controllers.ThreadListActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
+
         <activity
-            android:name=".controllers.ThreadDetailActivity"
+            android:name="com.chanapps.ranchan.app.controllers.ThreadDetailActivity"
             android:label="@string/title_thread_detail"
-            android:parentActivityName=".controllers.ThreadListActivity" >
+            android:parentActivityName="com.chanapps.ranchan.app.controllers.ThreadListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chanapps.ranchan.app.ThreadListActivity" />
+                android:value="com.chanapps.ranchan.app.controllers.ThreadListActivity" />
         </activity>
+
+        <activity
+            android:name="com.chanapps.ranchan.app.controllers.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.chanapps.ranchan.app.controllers.ThreadListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chanapps.ranchan.app.controllers.ThreadListActivity" />
+        </activity>
+
     </application>
 
 </manifest>
