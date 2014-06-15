@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.chanapps.ranchan.app.ThreadListActivity">
+    tools:context="com.chanapps.ranchan.app.controllers.ThreadListActivity">
 
     <!--
     This layout is a two-pane layout for the Threads
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/thread_list"
-        android:name="com.chanapps.ranchan.app.ThreadListFragment"
+        android:name="com.chanapps.ranchan.app.views.ThreadListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

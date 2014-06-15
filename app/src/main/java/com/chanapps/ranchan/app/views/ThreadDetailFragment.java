@@ -1,4 +1,4 @@
-package com.chanapps.ranchan.app;
+package com.chanapps.ranchan.app.views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.chanapps.ranchan.app.dummy.ThreadContent;
+import com.chanapps.ranchan.app.R;
+import com.chanapps.ranchan.app.models.ThreadContent;
 
 /**
  * A fragment representing a single Thread detail screen.
- * This fragment is either contained in a {@link ThreadListActivity}
- * in two-pane mode (on tablets) or a {@link ThreadDetailActivity}
+ * This fragment is either contained in a {@link com.chanapps.ranchan.app.controllers.ThreadListActivity}
+ * in two-pane mode (on tablets) or a {@link com.chanapps.ranchan.app.controllers.ThreadDetailActivity}
  * on handsets.
  */
 public class ThreadDetailFragment extends Fragment {

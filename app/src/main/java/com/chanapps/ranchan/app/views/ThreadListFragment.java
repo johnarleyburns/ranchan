@@ -1,20 +1,24 @@
-package com.chanapps.ranchan.app;
+package com.chanapps.ranchan.app.views;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-import com.chanapps.ranchan.app.dummy.ThreadContent;
+import com.chanapps.ranchan.app.R;
+import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
+import com.chanapps.ranchan.app.models.ThreadContent;
 
 /**
  * A list fragment representing a list of Threads. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ThreadDetailFragment}.
+ * currently being viewed in a {@link com.chanapps.ranchan.app.views.ThreadDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
@@ -71,12 +75,14 @@ public class ThreadListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<ThreadContent.ThreadItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                ThreadContent.ITEMS));
+        setListAdapter(new ThreadListAdapter(getActivity(), ThreadContent.ITEMS));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_thread_listview, null);
+        return v;
     }
 
     @Override

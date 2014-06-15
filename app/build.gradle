@@ -35,4 +35,5 @@ dependencies {
     // The Support Repository (separate from the corresponding library) can be found in the Extras category.
     // compile 'com.android.support:support-v4:19.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.mcxiaoke.volley:library:1.0.+@aar'
 }

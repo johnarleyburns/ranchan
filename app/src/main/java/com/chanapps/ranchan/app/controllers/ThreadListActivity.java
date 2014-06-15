@@ -1,25 +1,27 @@
-package com.chanapps.ranchan.app;
+package com.chanapps.ranchan.app.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
+import com.chanapps.ranchan.app.R;
+import com.chanapps.ranchan.app.views.ThreadDetailFragment;
+import com.chanapps.ranchan.app.views.ThreadListFragment;
 
 
 /**
  * An activity representing a list of Threads. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ThreadDetailActivity} representing
+ * lead to a {@link com.chanapps.ranchan.app.controllers.ThreadDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link ThreadListFragment} and the item details
- * (if present) is a {@link ThreadDetailFragment}.
+ * {@link com.chanapps.ranchan.app.views.ThreadListFragment} and the item details
+ * (if present) is a {@link com.chanapps.ranchan.app.views.ThreadDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link ThreadListFragment.Callbacks} interface
+ * {@link com.chanapps.ranchan.app.views.ThreadListFragment.Callbacks} interface
  * to listen for item selections.
  */
 public class ThreadListActivity extends FragmentActivity

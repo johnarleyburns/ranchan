@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--
+    <dimen name="thread_right">64dp</dimen>
+    <dimen name="thread_height">48dp</dimen>
+    <dimen name="thread_right_remainder">40dp</dimen>
+    <dimen name="thread_half">24dp</dimen>
+    <dimen name="thread_icon">16dp</dimen>
+    <dimen name="thread_content">14sp</dimen>
+    <dimen name="thread_chats">12sp</dimen>
+    <dimen name="thread_outer">8dp</dimen>
+    <dimen name="thread_inner">4dp</dimen>
+    <integer name="thread_lines">2</integer>
+-->
+
+    <dimen name="thread_right">64dp</dimen>
+    <dimen name="thread_height">64dp</dimen>
+    <dimen name="thread_right_minus_icon">40dp</dimen>
+    <dimen name="thread_half">32dp</dimen>
+    <dimen name="thread_icon_outer">24dp</dimen>
+    <dimen name="thread_icon">16dp</dimen>
+    <dimen name="thread_content">14sp</dimen>
+    <dimen name="thread_chats">12sp</dimen>
+    <dimen name="thread_outer">8dp</dimen>
+    <dimen name="thread_inner">4dp</dimen>
+    <integer name="thread_lines">3</integer>
+
+</resources>

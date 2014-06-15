@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chanapps.ranchan.app" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+            android:name="com.chanapps.ranchan.app.application.RanchanApplication"
+            >
         <activity
-            android:name="com.chanapps.ranchan.app.ThreadListActivity"
+            android:name=".controllers.ThreadListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.chanapps.ranchan.app.ThreadDetailActivity"
+            android:name=".controllers.ThreadDetailActivity"
             android:label="@string/title_thread_detail"
-            android:parentActivityName="com.chanapps.ranchan.app.ThreadListActivity" >
+            android:parentActivityName=".controllers.ThreadListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chanapps.ranchan.app.ThreadListActivity" />
