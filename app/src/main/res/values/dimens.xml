@@ -18,6 +18,7 @@
     <dimen name="thread_height">64dp</dimen>
     <dimen name="thread_right_minus_icon">40dp</dimen>
     <dimen name="thread_half">32dp</dimen>
+    <dimen name="thread_image_bottom">20dp</dimen>
     <dimen name="thread_icon_outer">24dp</dimen>
     <dimen name="thread_icon">16dp</dimen>
     <dimen name="thread_content">14sp</dimen>

@@ -13,7 +13,7 @@
         android:scaleType="centerCrop"
         />
 
-    <TextView android:id="@+id/thread_list_item_content"
+    <TextView android:id="@+id/thread_list_item_content_withimage"
               android:layout_width="match_parent"
               android:layout_height="@dimen/thread_height"
               android:textAppearance="?android:attr/textAppearanceListItemSmall"
@@ -21,9 +21,21 @@
               android:paddingRight="@dimen/thread_inner"
               android:paddingTop="@dimen/thread_inner"
               android:paddingBottom="@dimen/thread_inner"
-              android:background="?android:attr/activatedBackgroundIndicator"
               android:maxLines="@integer/thread_lines"
               android:layout_marginLeft="@dimen/thread_height"
+              android:layout_marginRight="@dimen/thread_right"
+              android:textSize="@dimen/thread_content"
+            />
+
+    <TextView android:id="@+id/thread_list_item_content_noimage"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/thread_height"
+              android:textAppearance="?android:attr/textAppearanceListItemSmall"
+              android:paddingLeft="@dimen/thread_outer"
+              android:paddingRight="@dimen/thread_inner"
+              android:paddingTop="@dimen/thread_inner"
+              android:paddingBottom="@dimen/thread_inner"
+              android:maxLines="@integer/thread_lines"
               android:layout_marginRight="@dimen/thread_right"
               android:textSize="@dimen/thread_content"
             />
@@ -39,16 +51,29 @@
               android:textSize="@dimen/thread_chats"
               />
 
-    <ImageView android:id="@+id/thread_list_item_adult"
-            android:layout_width="@dimen/thread_icon"
-            android:layout_height="@dimen/thread_icon"
-            android:layout_marginBottom="@dimen/thread_icon_outer"
-            android:layout_marginRight="@dimen/thread_outer"
-            android:layout_gravity="right|bottom"
-            android:src="@drawable/heart"
+    <TextView android:id="@+id/thread_list_item_chats"
+              android:layout_width="@dimen/thread_right_minus_icon"
+              android:layout_height="@dimen/thread_half"
+              android:layout_marginBottom="@dimen/thread_image_bottom"
+              android:layout_marginRight="@dimen/thread_icon_outer"
+              android:paddingRight="@dimen/thread_inner"
+              android:paddingBottom="@dimen/thread_inner"
+              android:maxLines="1"
+              android:layout_gravity="right|bottom"
+              android:gravity="right|bottom"
+              android:textSize="@dimen/thread_chats"
             />
 
-    <TextView android:id="@+id/thread_list_item_chats"
+    <ImageView android:id="@+id/thread_list_item_chaticon"
+               android:layout_width="@dimen/thread_icon"
+               android:layout_height="@dimen/thread_icon"
+               android:layout_marginBottom="@dimen/thread_icon_outer"
+               android:layout_marginRight="@dimen/thread_outer"
+               android:layout_gravity="right|bottom"
+               android:src="@drawable/speech_bubble"
+            />
+
+    <TextView android:id="@+id/thread_list_item_images"
               android:layout_width="@dimen/thread_right_minus_icon"
               android:layout_height="@dimen/thread_half"
               android:layout_marginRight="@dimen/thread_icon_outer"
@@ -60,13 +85,22 @@
               android:textSize="@dimen/thread_chats"
             />
 
-    <ImageView android:id="@+id/thread_list_item_icon"
+    <ImageView android:id="@+id/thread_list_item_imageicon"
                android:layout_width="@dimen/thread_icon"
                android:layout_height="@dimen/thread_icon"
                android:layout_marginBottom="@dimen/thread_inner"
                android:layout_marginRight="@dimen/thread_outer"
                android:layout_gravity="right|bottom"
-               android:src="@drawable/speech_bubble"
+               android:src="@drawable/photo"
+            />
+
+    <ImageView android:id="@+id/thread_list_item_adult"
+               android:layout_width="@dimen/thread_icon"
+               android:layout_height="@dimen/thread_icon"
+               android:layout_marginBottom="@dimen/thread_inner"
+               android:layout_marginRight="@dimen/thread_outer"
+               android:layout_gravity="right|bottom"
+               android:src="@drawable/heart"
             />
 
 </FrameLayout>

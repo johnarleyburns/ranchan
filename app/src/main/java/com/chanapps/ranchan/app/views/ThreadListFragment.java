@@ -1,8 +1,11 @@
 package com.chanapps.ranchan.app.views;
 
 import android.app.Activity;
+import android.content.*;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,9 @@ import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
 import com.chanapps.ranchan.app.models.ThreadContent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A list fragment representing a list of Threads. This fragment
  * also supports tablet devices by allowing list items to be given an
@@ -24,6 +30,10 @@ import com.chanapps.ranchan.app.models.ThreadContent;
  * interface.
  */
 public class ThreadListFragment extends ListFragment {
+
+    public static final String REFRESH_THREAD_LIST_ACTION = "com.chanapps.ranchan.app.ThreadListFragment.refresh";
+
+    private static final boolean TEST_MODE = true;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -74,8 +84,8 @@ public class ThreadListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setListAdapter(new ThreadListAdapter(getActivity(), ThreadContent.ITEMS));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(REFRESH_THREAD_LIST_ACTION));
+        asyncLoadThreadList();
     }
 
     @Override
@@ -134,6 +144,19 @@ public class ThreadListFragment extends ListFragment {
         }
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            asyncLoadThreadList();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+    }
+
     /**
      * Turns on activate-on-click mode. When this mode is on, list items will be
      * given the 'activated' state when touched.
@@ -155,4 +178,30 @@ public class ThreadListFragment extends ListFragment {
 
         mActivatedPosition = position;
     }
+
+    private void asyncLoadThreadList() {
+        Context context = getActivity();
+        if (context == null) {
+            return;
+        }
+        if (TEST_MODE) {
+            List<ThreadContent.ThreadItem> items = new ArrayList<ThreadContent.ThreadItem>();
+            boolean adultEnabled = SettingsFragment.Preferences.adultEnabled(context);
+            if (!adultEnabled) {
+                for (ThreadContent.ThreadItem item : ThreadContent.ITEMS) {
+                    if (!item.adult) {
+                        items.add(item);
+                    }
+                }
+            }
+            else {
+                items.addAll(ThreadContent.ITEMS);
+            }
+            setListAdapter(new ThreadListAdapter(context, items));
+        }
+        else {
+            throw new UnsupportedOperationException("Only test mode currently implemented");
+        }
+    }
+
 }
