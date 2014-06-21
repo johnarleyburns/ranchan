@@ -1,9 +1,8 @@
 package com.chanapps.ranchan.app.controllers;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
-import android.app.SearchManager;
+import android.app.*;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -165,7 +164,7 @@ public class ThreadListActivity extends FragmentActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                Toast.makeText(this, "open new thread dialog", Toast.LENGTH_SHORT).show();
+                new AddThreadFragment().show(getFragmentManager(), AddThreadFragment.class.getSimpleName());
                 return true;
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -190,4 +189,30 @@ public class ThreadListActivity extends FragmentActivity
                 .onRefreshList();
     }
 
+    private class AddThreadFragment extends DialogFragment {
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.new_thread)
+                    .setView(getLayoutInflater().inflate(R.layout.dialog_add_thread, null))
+                    .setPositiveButton(R.string.add, addThreadListener)
+                    .setNeutralButton(R.string.attach, attachToThreadListener)
+                    .setNegativeButton(R.string.cancel, null);
+
+            AlertDialog dialog = builder.create();
+            return dialog;
+        }
+
+        private AlertDialog.OnClickListener addThreadListener = new AlertDialog.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int which) {
+                Toast.makeText(getActivity(), "add", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        private AlertDialog.OnClickListener attachToThreadListener = new AlertDialog.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int which) {
+                Toast.makeText(getActivity(), "attach", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
 }

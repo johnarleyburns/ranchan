@@ -16,5 +16,9 @@
     <string name="home">Home</string>
     <string name="viewed">Viewed</string>
     <string name="posted">Posted</string>
+    <string name="add">Add</string>
+    <string name="attach">Attach</string>
+    <string name="cancel">Cancel</string>
+    <string name="text">text</string>
 
 </resources>
