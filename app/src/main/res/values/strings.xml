@@ -12,5 +12,9 @@
     <string name="nsfw">NSFW</string>
     <string name="pref_adult_summary_on">Adult content is enabled</string>
     <string name="pref_adult_summary_off">Adult content is hidden</string>
+    <string name="your_thread">YOUR THREAD</string>
+    <string name="home">Home</string>
+    <string name="viewed">Viewed</string>
+    <string name="posted">Posted</string>
 
 </resources>

@@ -3,18 +3,18 @@ package com.chanapps.ranchan.app.views;
 import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
+import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
+import com.chanapps.ranchan.app.models.ListType;
 import com.chanapps.ranchan.app.models.ThreadContent;
 
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class ThreadListFragment extends ListFragment {
     public static final String REFRESH_THREAD_LIST_ACTION = "com.chanapps.ranchan.app.ThreadListFragment.refresh";
 
     private static final boolean TEST_MODE = true;
+
+    private ListType listType = ListType.HOME;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -204,4 +206,15 @@ public class ThreadListFragment extends ListFragment {
         }
     }
 
+    /* methods called from activity */
+    public void onRefreshList() {
+        Toast.makeText(getActivity(), "Refreshing " + listType, Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void onChangeListType(ListType listType) {
+        this.listType = listType;
+        Toast.makeText(getActivity(), "Loading " + listType, Toast.LENGTH_SHORT).show();
+
+    }
 }

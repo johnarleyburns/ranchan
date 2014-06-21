@@ -1,6 +1,7 @@
 package com.chanapps.ranchan.app.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,14 +54,14 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadContent.ThreadItem> {
         String url = item.thumbUrl();
         if (url == null) {
             ((TextView) view.findViewById(CONTENT_WITHIMAGE_ID)).setText(null);
-            ((TextView) view.findViewById(CONTENT_NOIMAGE_ID)).setText(item.content);
+            setContentText(view, CONTENT_NOIMAGE_ID, item);
             thumb.setDefaultImageResId(0);
             thumb.setErrorImageResId(0);
             thumb.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
         }
         else {
-            ((TextView) view.findViewById(CONTENT_WITHIMAGE_ID)).setText(item.content);
             ((TextView) view.findViewById(CONTENT_NOIMAGE_ID)).setText(null);
+            setContentText(view, CONTENT_WITHIMAGE_ID, item);
             thumb.setDefaultImageResId(R.drawable.pre_content);
             thumb.setErrorImageResId(R.drawable.no_content);
             thumb.setImageUrl(url, VolleySingleton.getInstance().getImageLoader());
@@ -68,4 +69,23 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadContent.ThreadItem> {
 
         return view;
     }
+
+    private void setContentText(View view, int resourceId, ThreadContent.ThreadItem item) {
+        /*
+        if (item.mine) {
+            StringBuilder b = new StringBuilder();
+            b.append("<b>");
+            b.append(getContext().getString(R.string.your_thread));
+            b.append("</b>");
+            b.append(" ");
+            b.append(item.content);
+            ((TextView) view.findViewById(resourceId)).setText(Html.fromHtml(b.toString()));
+
+        }
+        else {
+        */
+            ((TextView) view.findViewById(resourceId)).setText(item.content);
+        //}
+    }
+
 }
