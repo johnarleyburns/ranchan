@@ -157,8 +157,25 @@ public class ThreadListActivity extends FragmentActivity
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
+
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            ((ThreadListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.thread_list))
+                    .filter(newText);
+            return false;
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

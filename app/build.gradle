@@ -37,3 +37,18 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.mcxiaoke.volley:library:1.0.+@aar'
 }
+
+
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://eaio.com/maven2"
+    }
+}
+
+dependencies {
+    compile group: 'com.eaio.stringsearch', name: 'stringsearch', version: '2'
+}
+

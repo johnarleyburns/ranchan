@@ -16,6 +16,7 @@ import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
 import com.chanapps.ranchan.app.models.ListType;
 import com.chanapps.ranchan.app.models.ThreadContent;
+import com.chanapps.ranchan.app.models.ThreadItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class ThreadListFragment extends ListFragment {
     private static final boolean TEST_MODE = true;
 
     private ListType listType = ListType.HOME;
+    private ThreadListAdapter mAdapter;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -187,10 +189,10 @@ public class ThreadListFragment extends ListFragment {
             return;
         }
         if (TEST_MODE) {
-            List<ThreadContent.ThreadItem> items = new ArrayList<ThreadContent.ThreadItem>();
+            List<ThreadItem> items = new ArrayList<ThreadItem>();
             boolean adultEnabled = SettingsFragment.Preferences.adultEnabled(context);
             if (!adultEnabled) {
-                for (ThreadContent.ThreadItem item : ThreadContent.ITEMS) {
+                for (ThreadItem item : ThreadContent.ITEMS) {
                     if (!item.adult) {
                         items.add(item);
                     }
@@ -199,7 +201,8 @@ public class ThreadListFragment extends ListFragment {
             else {
                 items.addAll(ThreadContent.ITEMS);
             }
-            setListAdapter(new ThreadListAdapter(context, items));
+            mAdapter = new ThreadListAdapter(context, items);
+            setListAdapter(mAdapter);
         }
         else {
             throw new UnsupportedOperationException("Only test mode currently implemented");
@@ -217,4 +220,9 @@ public class ThreadListFragment extends ListFragment {
         Toast.makeText(getActivity(), "Loading " + listType, Toast.LENGTH_SHORT).show();
 
     }
+
+    public void filter(String newText) {
+        mAdapter.getFilter().filter(newText);
+    }
+
 }

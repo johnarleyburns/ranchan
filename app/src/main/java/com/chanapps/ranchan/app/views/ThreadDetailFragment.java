@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.models.ThreadContent;
+import com.chanapps.ranchan.app.models.ThreadItem;
 
 /**
  * A fragment representing a single Thread detail screen.
@@ -27,7 +28,7 @@ public class ThreadDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private ThreadContent.ThreadItem mItem;
+    private ThreadItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
