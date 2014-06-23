@@ -9,12 +9,13 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.application.VolleySingleton;
+import com.chanapps.ranchan.app.models.ThreadContent;
 import com.chanapps.ranchan.app.models.ThreadItem;
+import com.chanapps.ranchan.app.models.ThreadListType;
 import com.eaio.stringsearch.StringSearch;
 import com.eaio.stringsearch.BNDMCI;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by johnarleyburns on 14/06/14.
@@ -32,6 +33,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
     private static final int ADULT_ID = R.id.thread_list_item_adult;
 
     private final Object mLock = new Object();
+    private ThreadListType mListType = ThreadListType.HOME;
     private ThreadItemsFilter mFilter;
     public List<ThreadItem> mItemsArray; // base data
     public List<ThreadItem> mItems; // filtered data
@@ -123,16 +125,28 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
         return mFilter;
     }
 
+    public void setListType(ThreadListType listType) {
+        mListType = listType;
+    }
+
     private class ThreadItemsFilter extends Filter {
         protected FilterResults performFiltering(CharSequence prefix) {
             // Initiate our results object
-            FilterResults results = new FilterResults();
             // If the adapter array is empty, check the actual items array and use it
             if (mItems == null) {
                 synchronized (mLock) { // Notice the declaration above
                     mItems = new ArrayList<ThreadItem>(mItemsArray);
                 }
             }
+            if (mListType == ThreadListType.HOME) {
+                return filterByPrefix(prefix);
+            } else {
+                return filterByType();
+            }
+        }
+
+        protected FilterResults filterByPrefix(CharSequence prefix) {
+            FilterResults results = new FilterResults();
             // No prefix is sent to filter by so we're going to send back the original array
             if (prefix == null || prefix.length() == 0) {
                 synchronized (mLock) {
@@ -169,6 +183,61 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
             }
             return results;
         }
+
+        protected FilterResults filterByType() {
+            FilterResults results = new FilterResults();
+            // Local to here so we're not changing actual array
+            final List<ThreadItem> items = mItems;
+            final int count = items.size();
+            List<ThreadItem> newItems;
+            switch (mListType) {
+                default:
+                case HOME:
+                    newItems = new ArrayList<ThreadItem>(count);
+                    newItems.addAll(ThreadContent.getItems());
+                    break;
+                case VIEWED:
+                    Set<String> viewed = ThreadContent.getViewed();
+                    newItems = new ArrayList<ThreadItem>(viewed.size());
+                    for (String id : viewed) {
+                        ThreadItem item = ThreadContent.getItem(id);
+                        if (item != null) {
+                            newItems.add(item);
+                        }
+                    }
+                    Collections.sort(newItems, new Comparator<ThreadItem>() {
+                        @Override
+                        public int compare(ThreadItem lhs, ThreadItem rhs) {
+                            return lhs.date.compareTo(rhs.date);
+                        }
+                    });
+                    break;
+                case POSTED:
+                    Set<String> posted = ThreadContent.getPosted();
+                    newItems = new ArrayList<ThreadItem>(posted.size());
+                    for (String id : posted) {
+                        ThreadItem item = ThreadContent.getItem(id);
+                        if (item != null) {
+                            newItems.add(item);
+                        }
+                    }
+                    Collections.sort(newItems, new Comparator<ThreadItem>() {
+                        @Override
+                        public int compare(ThreadItem lhs, ThreadItem rhs) {
+                            return lhs.date.compareTo(rhs.date);
+                        }
+                    });
+                    break;
+            }
+            for (int i = 0; i < count; i++) {
+                final ThreadItem item = items.get(i);
+            }
+            // Set and return
+            results.values = newItems;
+            results.count = newItems.size();
+            return results;
+        }
+
         @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence prefix, FilterResults results) {
             //noinspection unchecked

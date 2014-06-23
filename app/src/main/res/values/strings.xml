@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ranchan</string>
+    <string name="app_name">Ranchan</string>
     <string name="app_label">@string/app_name</string>
     <string name="title_thread_detail">Thread Detail</string>
     <string name="search_hint"></string>

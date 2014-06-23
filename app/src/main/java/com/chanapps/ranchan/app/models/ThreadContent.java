@@ -6,19 +6,19 @@ import java.util.*;
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
  * <p>
- * TODO: Replace all uses of this class before publishing your app.
  */
 public class ThreadContent {
 
-    /**
-     * An array of sample (dummy) items.
-     */
-    public static List<ThreadItem> ITEMS = new ArrayList<ThreadItem>();
+    private static final boolean TEST_MODE = true;
 
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    public static Map<String, ThreadItem> ITEM_MAP = new HashMap<String, ThreadItem>();
+    private static List<ThreadItem> ITEMS = new ArrayList<ThreadItem>();
+    private static Map<String, ThreadItem> ITEM_MAP = new HashMap<String, ThreadItem>();
+    private static Set<String> VIEWED = new HashSet<String>();
+    private static Set<String> POSTED = new HashSet<String>();
+
+    private static Object mLock = new Object();
+    private static Object mViewedLock = new Object();
+    private static Object mPostedLock = new Object();
 
     static {
         Calendar c = Calendar.getInstance();
@@ -44,11 +44,63 @@ public class ThreadContent {
         addItem(new ThreadItem("f2b46979-13f5-4357-8379-bc4d4fc38a2e", "Let's talk about meditation.  Lately I've been eating only fruits and vegetables and meditating, is this going to give me superpowers?", 38, 0, c.getTime(), false, false, false));
         c.add(Calendar.HOUR_OF_DAY, -10000);
         addItem(new ThreadItem("f2b46979-13f5-4357-8379-bc4d4fc38a2e", "Bikini thread", 167, 150, c.getTime(), true, true, false));
+
+        addViewed(getItem(1).id);
+        addViewed(getItem(2).id);
+        addViewed(getItem(9).id);
+        addViewed(getItem(10).id);
+
+        addPosted(getItem(1).id);
+        addPosted(getItem(2).id);
     }
 
     private static void addItem(ThreadItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        synchronized (mLock) {
+            ITEMS.add(item);
+            ITEM_MAP.put(item.id, item);
+        }
+    }
+
+    public static ThreadItem getItem(int position) {
+        return ITEMS.get(position);
+    }
+
+    public static ThreadItem getItem(String id) {
+        return ITEM_MAP.get(id);
+    }
+
+    public static List<ThreadItem> getItems() {
+        return ITEMS;
+    }
+
+    private static void addViewed(String id) {
+        synchronized (mViewedLock) {
+            VIEWED.add(id);
+        }
+    }
+
+    private static void addPosted(String id) {
+        synchronized (mPostedLock) {
+            POSTED.add(id);
+        }
+    }
+
+    public static Set<String> getViewed() {
+        if (TEST_MODE) {
+            return VIEWED;
+        }
+        else {
+            throw new UnsupportedOperationException("viewed not yet implemented");
+        }
+    }
+
+    public static Set<String> getPosted() {
+        if (TEST_MODE) {
+            return POSTED;
+        }
+        else {
+            throw new UnsupportedOperationException("viewed not yet implemented");
+        }
     }
 
 }

@@ -45,7 +45,7 @@ public class ThreadDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = ThreadContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = ThreadContent.getItem(getArguments().getString(ARG_ITEM_ID));
         }
     }
 

@@ -6,14 +6,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
-import com.chanapps.ranchan.app.models.ListType;
+import com.chanapps.ranchan.app.models.ThreadListType;
 import com.chanapps.ranchan.app.views.ThreadDetailFragment;
 import com.chanapps.ranchan.app.views.ThreadListFragment;
 
@@ -35,8 +37,7 @@ import com.chanapps.ranchan.app.views.ThreadListFragment;
  * to listen for item selections.
  */
 public class ThreadListActivity extends FragmentActivity
-        implements ThreadListFragment.Callbacks,
-        ActionBar.TabListener
+        implements ThreadListFragment.Callbacks
 {
 
     /**
@@ -54,7 +55,13 @@ public class ThreadListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thread_list);
 
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        SpinnerAdapter navigationAdapter = ArrayAdapter.createFromResource(getBaseContext(),
+                R.array.action_list,
+                android.R.layout.simple_spinner_dropdown_item);
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getActionBar().setListNavigationCallbacks(navigationAdapter, navigationListener);
+        getActionBar().setTitle(null);
 
         if (findViewById(R.id.thread_detail_container) != null) {
             // The detail container view will be present only in the
@@ -70,24 +77,6 @@ public class ThreadListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        ActionBar.Tab tab1 = getActionBar().newTab();
-        tab1.setTag(ListType.HOME);
-        tab1.setText(ListType.HOME.stringId);
-        tab1.setTabListener(this);
-        getActionBar().addTab(tab1);
-
-        ActionBar.Tab tab2 = getActionBar().newTab();
-        tab2.setTag(ListType.VIEWED);
-        tab2.setText(ListType.VIEWED.stringId);
-        tab2.setTabListener(this);
-        getActionBar().addTab(tab2);
-
-        ActionBar.Tab tab3 = getActionBar().newTab();
-        tab3.setTag(ListType.POSTED);
-        tab3.setText(ListType.POSTED.stringId);
-        tab3.setTabListener(this);
-        getActionBar().addTab(tab3);
-
         if (savedInstanceState != null) {
             int savedIndex = savedInstanceState.getInt(PersistedSetting.SAVED_INDEX.toString());
             getActionBar().setSelectedNavigationItem(savedIndex);
@@ -96,9 +85,26 @@ public class ThreadListActivity extends FragmentActivity
         else {
             mSearchQuery = null;
         }
-
-        //handleIntent(getIntent());
     }
+
+    private ActionBar.OnNavigationListener navigationListener = new ActionBar.OnNavigationListener() {
+        @Override
+        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+            ThreadListType listType = ThreadListType.values()[itemPosition];
+            ((ThreadListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.thread_list))
+                    .onChangeListType(listType);
+            return false;
+        }
+    };
+
+    /*
+    @Override public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        ((ThreadListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.thread_list))
+                .onRefreshList();
+    }
+    */
 
     private static enum PersistedSetting {
         SAVED_INDEX,
@@ -115,22 +121,8 @@ public class ThreadListActivity extends FragmentActivity
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        //handleIntent(intent);
     }
 
-    /*
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, "query=[ " + query + " ]", Toast.LENGTH_SHORT).show();
-            if (menu != null) {
-                menu.findItem(R.id.menu_search).collapseActionView();
-            }
-            //doMySearch(query);
-
-        }
-    }
-    */
     /**
      * Callback method from {@link ThreadListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
@@ -239,21 +231,6 @@ public class ThreadListActivity extends FragmentActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-    }
-
-    @Override public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        ((ThreadListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.thread_list))
-                .onChangeListType((ListType) tab.getTag());
-    }
-
-    @Override public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        ((ThreadListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.thread_list))
-                .onRefreshList();
     }
 
     private class AddThreadFragment extends DialogFragment {

@@ -5,7 +5,6 @@ import android.content.*;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
-import com.chanapps.ranchan.app.models.ListType;
+import com.chanapps.ranchan.app.models.ThreadListType;
 import com.chanapps.ranchan.app.models.ThreadContent;
 import com.chanapps.ranchan.app.models.ThreadItem;
 
@@ -38,7 +37,7 @@ public class ThreadListFragment extends ListFragment {
 
     private static final boolean TEST_MODE = true;
 
-    private ListType listType = ListType.HOME;
+    private ThreadListType listType = ThreadListType.HOME;
     private ThreadListAdapter mAdapter;
 
     /**
@@ -180,7 +179,7 @@ public class ThreadListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(ThreadContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(ThreadContent.getItem(position).id);
     }
 
     @Override
@@ -236,14 +235,14 @@ public class ThreadListFragment extends ListFragment {
             List<ThreadItem> items = new ArrayList<ThreadItem>();
             boolean adultEnabled = SettingsFragment.Preferences.adultEnabled(context);
             if (!adultEnabled) {
-                for (ThreadItem item : ThreadContent.ITEMS) {
+                for (ThreadItem item : ThreadContent.getItems()) {
                     if (!item.adult) {
                         items.add(item);
                     }
                 }
             }
             else {
-                items.addAll(ThreadContent.ITEMS);
+                items.addAll(ThreadContent.getItems());
             }
             mAdapter = new ThreadListAdapter(context, items);
             setListAdapter(mAdapter);
@@ -259,10 +258,12 @@ public class ThreadListFragment extends ListFragment {
 
     }
 
-    public void onChangeListType(ListType listType) {
-        this.listType = listType;
-        Toast.makeText(getActivity(), "Loading " + listType, Toast.LENGTH_SHORT).show();
-
+    public void onChangeListType(ThreadListType listType) {
+        if (listType != this.listType) {
+            this.listType = listType;
+            mAdapter.setListType(listType);
+            clearSearchFilter();
+        }
     }
 
     public void filter(String newText) {
