@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <FrameLayout
+            android:id="@+id/search_query_frame"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thread_search_bar"
+            >
+        <TextView
+                android:id="@+id/search_query_text"
+                android:layout_marginRight="@dimen/thread_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thread_search_bar"
+                android:layout_marginLeft="@dimen/thread_outer"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/thread_content"
+                android:maxLines="@integer/thread_search_lines"
+                android:textStyle="bold"
+                />
+        <ImageView
+                android:id="@+id/search_query_cancel"
+                android:layout_width="@dimen/thread_action_icon"
+                android:layout_height="@dimen/thread_action_icon"
+                android:layout_marginRight="@dimen/thread_outer"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/cancel"
+                />
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thread_divider"
+                android:layout_gravity="bottom"
+                android:background="@color/thread_divider"
+                />
+    </FrameLayout>
+
+<ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:fastScrollEnabled="true"
+        />
+
+</LinearLayout>

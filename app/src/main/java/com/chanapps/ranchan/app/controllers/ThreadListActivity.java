@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,7 +44,10 @@ public class ThreadListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
-    private Menu menu;
+    private boolean isSearchExpanded;
+    private String mSearchQuery;
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,26 +89,36 @@ public class ThreadListActivity extends FragmentActivity
         getActionBar().addTab(tab3);
 
         if (savedInstanceState != null) {
-            int savedIndex = savedInstanceState.getInt("SAVED_INDEX");
+            int savedIndex = savedInstanceState.getInt(PersistedSetting.SAVED_INDEX.toString());
             getActionBar().setSelectedNavigationItem(savedIndex);
+            mSearchQuery = savedInstanceState.getString(PersistedSetting.SEARCH_QUERY.toString());
+        }
+        else {
+            mSearchQuery = null;
         }
 
-        handleIntent(getIntent());
+        //handleIntent(getIntent());
+    }
 
+    private static enum PersistedSetting {
+        SAVED_INDEX,
+        SEARCH_QUERY
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("SAVED_INDEX", getActionBar().getSelectedNavigationIndex());
+        outState.putInt(PersistedSetting.SAVED_INDEX.toString(), getActionBar().getSelectedNavigationIndex());
+        outState.putString(PersistedSetting.SEARCH_QUERY.toString(), mSearchQuery);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        handleIntent(intent);
+        //handleIntent(intent);
     }
 
+    /*
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -116,7 +130,7 @@ public class ThreadListActivity extends FragmentActivity
 
         }
     }
-
+    */
     /**
      * Callback method from {@link ThreadListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
@@ -145,34 +159,70 @@ public class ThreadListActivity extends FragmentActivity
     }
 
     @Override
+    public String searchQuery() {
+        return mSearchQuery;
+    }
+
+    @Override
+    public void onCancelPersistedQuery() {
+        mSearchQuery = null;
+        ((ThreadListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.thread_list))
+                .clearSearchFilter();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
-        this.menu = menu;
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchItem = menu.findItem(R.id.menu_search);
+        mSearchItem.setOnActionExpandListener(searchActionExpandListener);
+        mSearchView = (SearchView) mSearchItem.getActionView();
         // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        mSearchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
+
+    private MenuItem.OnActionExpandListener searchActionExpandListener = new MenuItem.OnActionExpandListener() {
+        @Override
+        public boolean onMenuItemActionExpand(MenuItem item) {
+            onCancelPersistedQuery();
+            isSearchExpanded = true;
+            return true;
+        }
+
+        @Override
+        public boolean onMenuItemActionCollapse(MenuItem item) {
+            return true;
+        }
+    };
 
     private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
-            return false;
+            isSearchExpanded = false;
+            mSearchQuery = query;
+            ((ThreadListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.thread_list))
+                    .persistQuery();
+            //mSearchView.setIconified(true);
+            mSearchItem.collapseActionView();
+            return true;
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            ((ThreadListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.thread_list))
-                    .filter(newText);
+            if (isSearchExpanded) {
+                ((ThreadListFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.thread_list))
+                        .filter(newText);
+            }
             return false;
         }
     };

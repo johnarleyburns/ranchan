@@ -5,12 +5,14 @@ import android.content.*;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 
+import android.widget.TextView;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
@@ -66,6 +68,8 @@ public class ThreadListFragment extends ListFragment {
          * Callback for when an item has been selected.
          */
         public void onItemSelected(String id);
+        public String searchQuery();
+        public void onCancelPersistedQuery();
     }
 
     /**
@@ -75,6 +79,13 @@ public class ThreadListFragment extends ListFragment {
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void onItemSelected(String id) {
+        }
+        @Override
+        public String searchQuery() {
+            return null;
+        }
+        @Override
+        public void onCancelPersistedQuery() {
         }
     };
 
@@ -95,8 +106,41 @@ public class ThreadListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_thread_listview, null);
+        View v = inflater.inflate(R.layout.activity_thread_list_fragment_view, null);
+        View searchQueryCancel = v.findViewById(R.id.search_query_cancel);
+        searchQueryCancel.setOnClickListener(searchQueryCancelListener);
+        updateSearchFrame(v);
         return v;
+    }
+
+    private View.OnClickListener searchQueryCancelListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mCallbacks != null) {
+                mCallbacks.onCancelPersistedQuery();
+            }
+        }
+    };
+
+    private void updateSearchFrame() {
+        updateSearchFrame(getView());
+    }
+
+    private void updateSearchFrame(View v) {
+        if (v == null) {
+            return;
+        }
+        View searchQueryFrame = v.findViewById(R.id.search_query_frame);
+        TextView searchQueryText = (TextView)v.findViewById(R.id.search_query_text);
+        String query = mCallbacks == null ? null : mCallbacks.searchQuery();
+        if (query != null && query.length() > 0) {
+            searchQueryText.setText(query);
+            searchQueryFrame.setVisibility(View.VISIBLE);
+        }
+        else {
+            searchQueryFrame.setVisibility(View.GONE);
+            searchQueryText.setText("");
+        }
     }
 
     @Override
@@ -223,6 +267,16 @@ public class ThreadListFragment extends ListFragment {
 
     public void filter(String newText) {
         mAdapter.getFilter().filter(newText);
+    }
+
+    public void persistQuery() {
+        //String query = mCallbacks.searchQuery();
+        updateSearchFrame();
+    }
+
+    public void clearSearchFilter() {
+        filter(null);
+        updateSearchFrame();
     }
 
 }
