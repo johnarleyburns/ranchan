@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+    <item
+            android:id="@+id/menu_attach"
+            android:title="@string/attach"
+            android:icon="@drawable/ic_action_new_attachment"
+            android:showAsAction="ifRoom"
+            >
+        <menu>
+
+            <item
+                android:id="@+id/menu_attach_image"
+                android:title="@string/image"
+                android:icon="@drawable/ic_action_picture"
+                />
+
+            <item
+                android:id="@+id/menu_attach_video"
+                android:title="@string/video"
+                android:icon="@drawable/ic_action_video"
+                />
+
+            <item
+                android:id="@+id/menu_attach_audio"
+                android:title="@string/audio"
+                android:icon="@drawable/ic_action_headphones"
+                />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_send"
+        android:title="@string/send"
+        android:icon="@drawable/ic_action_send_now"
+        android:showAsAction="ifRoom"
+        />
+
+</menu>

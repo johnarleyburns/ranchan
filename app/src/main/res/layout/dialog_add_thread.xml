@@ -14,5 +14,11 @@
             android:layout_marginLeft="@dimen/thread_outer"
             android:layout_marginRight="@dimen/thread_outer"
             android:layout_marginBottom="@dimen/thread_outer"
-            android:hint="@string/text" />
+            android:hint="@string/text"
+            />
+    <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NSFW"
+            />
 </LinearLayout>

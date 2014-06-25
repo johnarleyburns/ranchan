@@ -24,7 +24,7 @@
               android:maxLines="@integer/thread_lines"
               android:layout_marginLeft="@dimen/thread_height"
               android:layout_marginRight="@dimen/thread_right"
-              android:textSize="@dimen/thread_content"
+              android:textSize="@dimen/thread_content_textsize"
             />
 
     <TextView android:id="@+id/thread_list_item_content_noimage"
@@ -37,7 +37,7 @@
               android:paddingBottom="@dimen/thread_inner"
               android:maxLines="@integer/thread_lines"
               android:layout_marginRight="@dimen/thread_right"
-              android:textSize="@dimen/thread_content"
+              android:textSize="@dimen/thread_content_textsize"
             />
 
     <TextView android:id="@+id/thread_list_item_date"
@@ -48,7 +48,7 @@
               android:maxLines="1"
               android:layout_gravity="right"
               android:gravity="right"
-              android:textSize="@dimen/thread_chats"
+              android:textSize="@dimen/thread_subscript_textsize"
               />
 
     <TextView android:id="@+id/thread_list_item_chats"
@@ -61,7 +61,7 @@
               android:maxLines="1"
               android:layout_gravity="right|bottom"
               android:gravity="right|bottom"
-              android:textSize="@dimen/thread_chats"
+              android:textSize="@dimen/thread_subscript_textsize"
             />
 
     <ImageView android:id="@+id/thread_list_item_chaticon"
@@ -82,7 +82,7 @@
               android:maxLines="1"
               android:layout_gravity="right|bottom"
               android:gravity="right|bottom"
-              android:textSize="@dimen/thread_chats"
+              android:textSize="@dimen/thread_subscript_textsize"
             />
 
     <ImageView android:id="@+id/thread_list_item_imageicon"

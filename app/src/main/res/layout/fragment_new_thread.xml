@@ -1,0 +1,56 @@
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_thread">
+
+        <EditText
+                android:id="@+id/new_thread_content"
+                android:inputType="textImeMultiLine|textAutoComplete|textMultiLine|textLongMessage"
+                android:imeOptions="actionSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/thread_outer"
+                android:layout_marginLeft="@dimen/thread_outer"
+                android:layout_marginRight="@dimen/thread_outer"
+                android:layout_marginBottom="@dimen/thread_outer"
+                android:textSize="@dimen/thread_entry_textsize"
+                android:hint="@string/thread_description"
+                android:minLines="@integer/new_thread_content_minLines"
+                android:gravity="top"
+                />
+
+        <CheckBox
+                android:id="@+id/new_thread_nsfw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nsfw"
+                android:textSize="@dimen/thread_entry_textsize"
+                android:layout_marginLeft="@dimen/thread_inner"
+                android:layout_marginRight="@dimen/thread_inner"
+                android:layout_marginTop="@dimen/thread_outer"
+                android:layout_marginBottom="@dimen/thread_outer"
+                />
+
+        <ImageView
+                android:id="@+id/new_thread_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                />
+
+        <VideoView
+                android:id="@+id/new_thread_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+    </LinearLayout>
+
+</ScrollView>

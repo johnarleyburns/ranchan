@@ -22,13 +22,12 @@
     <dimen name="thread_image_bottom">20dp</dimen>
     <dimen name="thread_icon_outer">24dp</dimen>
     <dimen name="thread_icon">16dp</dimen>
-    <dimen name="thread_content">14sp</dimen>
-    <dimen name="thread_chats">12sp</dimen>
+    <dimen name="thread_entry_textsize">16sp</dimen>
+    <dimen name="thread_content_textsize">14sp</dimen>
+    <dimen name="thread_subscript_textsize">12sp</dimen>
     <dimen name="thread_outer">8dp</dimen>
     <dimen name="thread_inner">4dp</dimen>
     <dimen name="thread_divider">1dp</dimen>
     <dimen name="thread_search_bar">48dp</dimen>
-    <integer name="thread_lines">3</integer>
-    <integer name="thread_search_lines">2</integer>
 
 </resources>

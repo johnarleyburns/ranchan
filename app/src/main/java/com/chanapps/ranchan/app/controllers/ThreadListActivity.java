@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.SpinnerAdapter;
@@ -167,7 +166,7 @@ public class ThreadListActivity extends FragmentActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
+        inflater.inflate(R.menu.thread_list_menu, menu);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -223,10 +222,13 @@ public class ThreadListActivity extends FragmentActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                new AddThreadFragment().show(getFragmentManager(), AddThreadFragment.class.getSimpleName());
+                startActivity(new Intent(this, NewThreadActivity.class));
                 return true;
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.menu_about:
+                Toast.makeText(this, "About page here", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

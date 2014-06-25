@@ -20,7 +20,7 @@
                 android:layout_marginLeft="@dimen/thread_outer"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textSize="@dimen/thread_content"
+                android:textSize="@dimen/thread_content_textsize"
                 android:maxLines="@integer/thread_search_lines"
                 android:textStyle="bold"
                 />
