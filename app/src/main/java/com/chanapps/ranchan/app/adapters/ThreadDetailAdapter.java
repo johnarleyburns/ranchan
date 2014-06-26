@@ -1,7 +1,6 @@
 package com.chanapps.ranchan.app.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,23 +12,24 @@ import com.chanapps.ranchan.app.application.VolleySingleton;
 import com.chanapps.ranchan.app.models.ThreadContent;
 import com.chanapps.ranchan.app.models.ThreadItem;
 import com.chanapps.ranchan.app.models.ThreadListType;
-import com.eaio.stringsearch.StringSearch;
 import com.eaio.stringsearch.BNDMCI;
+import com.eaio.stringsearch.StringSearch;
 
 import java.util.*;
 
 /**
  * Created by johnarleyburns on 14/06/14.
  */
-public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
+public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
 
-    private static final int RESOURCE_ID = R.layout.thread_list_item;
+    private static final int RESOURCE_ID = R.layout.thread_detail_item;
     private static final int CONTENT_WITHIMAGE_ID = R.id.thread_list_item_content_withimage;
     private static final int CONTENT_NOIMAGE_ID = R.id.thread_list_item_content_noimage;
     private static final int CHATS_ID = R.id.thread_list_item_chats;
     private static final int DATE_ID = R.id.thread_list_item_date;
     private static final int THUMB_ID = R.id.thread_list_item_thumb;
     private static final int IMAGES_ID = R.id.thread_list_item_images;
+    private static final int CHATICON_ID = R.id.thread_list_item_chaticon;
     private static final int IMAGEICON_ID = R.id.thread_list_item_imageicon;
     private static final int ADULT_ID = R.id.thread_list_item_adult;
 
@@ -39,7 +39,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
     public List<ThreadItem> mItemsArray; // base data
     public List<ThreadItem> mItems; // filtered data
 
-    public ThreadListAdapter(Context context, List<ThreadItem> objects) {
+    public ThreadDetailAdapter(Context context, List<ThreadItem> objects) {
         super(context, RESOURCE_ID, objects);
         mItemsArray = objects;
         mItems = objects;
@@ -57,11 +57,24 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
             view = convertView;
         }
 
-        ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
-        ((TextView) view.findViewById(IMAGES_ID)).setText(String.valueOf(item.images));
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
-        view.findViewById(IMAGEICON_ID).setVisibility(item.adult() ? View.INVISIBLE : View.VISIBLE);
-        view.findViewById(ADULT_ID).setVisibility(item.adult() ? View.VISIBLE : View.INVISIBLE);
+        if (item.parentId == null) {
+            ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
+            ((TextView) view.findViewById(IMAGES_ID)).setText(String.valueOf(item.images));
+            view.findViewById(CHATS_ID).setVisibility(View.VISIBLE);
+            view.findViewById(IMAGES_ID).setVisibility(View.VISIBLE);
+            view.findViewById(CHATICON_ID).setVisibility(View.VISIBLE);
+            view.findViewById(IMAGEICON_ID).setVisibility(item.adult() && item.parentId == null ? View.INVISIBLE : View.VISIBLE);
+            view.findViewById(ADULT_ID).setVisibility(item.adult() && item.parentId == null ? View.VISIBLE : View.INVISIBLE);
+        }
+        else {
+            view.findViewById(CHATS_ID).setVisibility(View.GONE);
+            view.findViewById(IMAGES_ID).setVisibility(View.GONE);
+            view.findViewById(CHATICON_ID).setVisibility(View.GONE);
+            view.findViewById(IMAGEICON_ID).setVisibility(View.GONE);
+            view.findViewById(ADULT_ID).setVisibility(View.GONE);
+        }
+
 
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
         String url = item.thumbUrl();
@@ -193,41 +206,8 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
             List<ThreadItem> newItems;
             switch (mListType) {
                 default:
-                case HOME:
                     newItems = new ArrayList<ThreadItem>(count);
-                    newItems.addAll(ThreadContent.getItems());
-                    break;
-                case VIEWED:
-                    Set<String> viewed = ThreadContent.getViewed();
-                    newItems = new ArrayList<ThreadItem>(viewed.size());
-                    for (String id : viewed) {
-                        ThreadItem item = ThreadContent.getItem(id);
-                        if (item != null) {
-                            newItems.add(item);
-                        }
-                    }
-                    Collections.sort(newItems, new Comparator<ThreadItem>() {
-                        @Override
-                        public int compare(ThreadItem lhs, ThreadItem rhs) {
-                            return lhs.date.compareTo(rhs.date);
-                        }
-                    });
-                    break;
-                case POSTED:
-                    Set<String> posted = ThreadContent.getPosted();
-                    newItems = new ArrayList<ThreadItem>(posted.size());
-                    for (String id : posted) {
-                        ThreadItem item = ThreadContent.getItem(id);
-                        if (item != null) {
-                            newItems.add(item);
-                        }
-                    }
-                    Collections.sort(newItems, new Comparator<ThreadItem>() {
-                        @Override
-                        public int compare(ThreadItem lhs, ThreadItem rhs) {
-                            return lhs.date.compareTo(rhs.date);
-                        }
-                    });
+                    newItems.addAll(ThreadContent.getDetailItems());
                     break;
             }
             for (int i = 0; i < count; i++) {

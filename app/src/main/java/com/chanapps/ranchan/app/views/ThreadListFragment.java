@@ -105,7 +105,7 @@ public class ThreadListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_thread_list_fragment_view, null);
+        View v = inflater.inflate(R.layout.fragment_thread_list, null);
         View searchQueryCancel = v.findViewById(R.id.search_query_cancel);
         searchQueryCancel.setOnClickListener(searchQueryCancelListener);
         updateSearchFrame(v);
@@ -232,11 +232,12 @@ public class ThreadListFragment extends ListFragment {
             return;
         }
         if (TEST_MODE) {
+            ThreadContent.loadList();
             List<ThreadItem> items = new ArrayList<ThreadItem>();
             boolean adultEnabled = SettingsFragment.Preferences.adultEnabled(context);
             if (!adultEnabled) {
                 for (ThreadItem item : ThreadContent.getItems()) {
-                    if (!item.adult) {
+                    if (!item.adult()) {
                         items.add(item);
                     }
                 }

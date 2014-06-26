@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/fragment_thread_detail_footer"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+        >
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thread_divider"
+            android:layout_gravity="bottom"
+            android:background="@color/thread_divider"
+            />
+    <EditText
+            android:id="@+id/new_post_text"
+            android:layout_marginRight="@dimen/thread_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thread_outer"
+            android:layout_marginTop="@dimen/thread_inner"
+            android:layout_marginBottom="@dimen/thread_inner"
+            android:minHeight="@dimen/thread_height"
+            android:inputType="textImeMultiLine|textAutoComplete|textMultiLine|textLongMessage"
+            android:imeOptions="actionSend"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/thread_entry_textsize"
+            />
+    <ImageView
+            android:id="@+id/new_post_send"
+            android:layout_width="@dimen/thread_action_icon"
+            android:layout_height="@dimen/thread_action_icon"
+            android:layout_marginRight="@dimen/thread_outer"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/ic_action_send_now"
+            />
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thread_divider"
+            android:layout_gravity="bottom"
+            android:background="@color/thread_divider"
+            />
+</FrameLayout>

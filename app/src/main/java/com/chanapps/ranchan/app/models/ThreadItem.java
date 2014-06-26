@@ -16,28 +16,38 @@ public class ThreadItem {
 
     private static final boolean TEST_MODE = true;
 
+    public static final int FLAG_ADULT = 0x01;
+
     private static final String THUMB_URL_FORMAT = "https://ranchan.org/t/%0d.jpg";  // 96x96
     private static final String PREVIEW_URL_FORMAT = "https://ranchan.org/i/%0d.jpg"; // 960x960
     private static final String FULL_URL_FORMAT = "https://ranchan.org/f/%0d.jpg"; // 3MB max ???
 
     public String id;
+    public String parentId;
     public String content;
+    public Date date;
+    public int imageBytes;
+    public int flags;
     public int chats;
     public int images;
-    public Date date;
-    public boolean adult;
-    public boolean hasImage;
-    public boolean mine;
 
-    public ThreadItem(String id, String content, int chats, int images, Date date, boolean adult, boolean hasImage, boolean mine) {
+    public ThreadItem(String id, String parentId, Date date, String content, int imageBytes, int flags, int chats, int images) {
         this.id = id;
+        this.parentId = parentId;
         this.content = content;
+        this.date = date;
+        this.imageBytes = imageBytes;
+        this.flags = flags;
         this.chats = chats;
         this.images = images;
-        this.date = date;
-        this.adult = adult;
-        this.hasImage = hasImage;
-        this.mine = mine;
+    }
+
+    public boolean adult() {
+        return (flags & FLAG_ADULT) > 0;
+    }
+
+    public boolean hasImage() {
+        return imageBytes > 0;
     }
 
     public String shortDate(Context context) {
@@ -61,7 +71,7 @@ public class ThreadItem {
     }
 
     public String thumbUrl() {
-        if (!hasImage) {
+        if (!hasImage()) {
             return null;
         }
         if (TEST_MODE) {
@@ -115,8 +125,13 @@ public class ThreadItem {
             "https://upload.wikimedia.org/wikipedia/commons/3/3c/Graffiti_Here_Please.jpg",
 
             "f2b46979-13f5-4357-8379-bc4d4fc38a2e",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg/160px-Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg/160px-Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg",
 
+            "8b67d0c3-d7f0-4c0c-b6f9-66d5d3e3081b",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Sven_Melander.jpg/192px-Sven_Melander.jpg",
+
+            "6cef17c6-9719-486a-8535-97f2e4921122",
+            "https://upload.wikimedia.org/wikipedia/commons/c/c3/Chavosh.jpg"
     );
 
     public static HashMap<String, String> build(String... data) {
