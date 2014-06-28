@@ -1,4 +1,4 @@
-package com.chanapps.ranchan.app.views;
+package com.chanapps.ranchan.app.fragments;
 
 import android.app.Activity;
 import android.content.*;
@@ -26,7 +26,7 @@ import java.util.List;
  * A list fragment representing a list of Threads. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link com.chanapps.ranchan.app.views.ThreadDetailFragment}.
+ * currently being viewed in a {@link com.chanapps.ranchan.app.fragments.ThreadDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.

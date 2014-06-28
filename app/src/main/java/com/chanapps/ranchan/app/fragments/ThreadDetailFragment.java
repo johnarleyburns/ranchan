@@ -1,24 +1,19 @@
-package com.chanapps.ranchan.app.views;
+package com.chanapps.ranchan.app.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
+import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadDetailAdapter;
-import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
-import com.chanapps.ranchan.app.models.ThreadContent;
-import com.chanapps.ranchan.app.models.ThreadItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.chanapps.ranchan.app.models.ThreadDetailType;
 
 /**
  * A fragment representing a single Thread detail screen.
@@ -27,8 +22,6 @@ import java.util.List;
  * on handsets.
  */
 public class ThreadDetailFragment extends ListFragment {
-
-    private static final boolean TEST_MODE = true;
 
     /**
      * The fragment argument representing the item ID that this fragment
@@ -39,8 +32,7 @@ public class ThreadDetailFragment extends ListFragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private ThreadItem mItem;
-
+    private ThreadDetailType detailType = ThreadDetailType.CHATS;
     private ThreadDetailAdapter mAdapter;
 
     /**
@@ -48,6 +40,10 @@ public class ThreadDetailFragment extends ListFragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public ThreadDetailFragment() {
+    }
+
+    public ThreadDetailFragment(ThreadDetailAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -58,8 +54,8 @@ public class ThreadDetailFragment extends ListFragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = ThreadContent.getDetailItem(getArguments().getString(ARG_ITEM_ID));
         }
+        mAdapter.setDetailType(ThreadDetailType.CHATS);
         asyncLoadThreadList();
     }
 
@@ -72,6 +68,7 @@ public class ThreadDetailFragment extends ListFragment {
 
         ListView list = (ListView)view.findViewById(android.R.id.list);
         list.addFooterView(footer);
+        setListAdapter(mAdapter);
 
         /*
             if (mItem != null) {
@@ -86,15 +83,20 @@ public class ThreadDetailFragment extends ListFragment {
         if (context == null) {
             return;
         }
-        if (TEST_MODE) {
-            ThreadContent.loadDetail();
-            List<ThreadItem> items = new ArrayList<ThreadItem>();
-            items.addAll(ThreadContent.getDetailItems());
-            mAdapter = new ThreadDetailAdapter(context, items);
-            setListAdapter(mAdapter);
-        }
-        else {
-            throw new UnsupportedOperationException("Only test mode currently implemented");
-        }
+        filter("");
+    }
+
+    /* methods called from activity */
+    public void onRefreshList() {
+        Toast.makeText(getActivity(), "Refreshing " + detailType, Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void filter(String newText) {
+        mAdapter.getFilter().filter(newText);
+    }
+
+    public void clearFilter() {
+        filter(null);
     }
 }

@@ -83,7 +83,20 @@ public class ThreadItem {
     }
 
     public String previewUrl() {
-        return String.format(PREVIEW_URL_FORMAT, id);
+        if (!hasImage()) {
+            return null;
+        }
+        if (TEST_MODE) {
+            if (TEST_IMAGES.containsKey(id)) {
+                return TEST_IMAGES.get(id);
+            }
+            else {
+                return TEST_THUMBS.get(id);
+            }
+        }
+        else {
+            return String.format(PREVIEW_URL_FORMAT, id);
+        }
     }
 
     public String fullUrl() {
@@ -131,7 +144,17 @@ public class ThreadItem {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Sven_Melander.jpg/192px-Sven_Melander.jpg",
 
             "6cef17c6-9719-486a-8535-97f2e4921122",
-            "https://upload.wikimedia.org/wikipedia/commons/c/c3/Chavosh.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/c/c3/Chavosh.jpg",
+
+            "7914c43c-2147-46c8-adda-ab21466b9f86",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dota-juku_01.JPG/320px-Dota-juku_01.JPG"
+    );
+
+    private static final Map<String, String> TEST_IMAGES = build(
+
+            "7914c43c-2147-46c8-adda-ab21466b9f86",
+            "https://upload.wikimedia.org/wikipedia/commons/4/4b/Dota-juku_01.JPG"
+
     );
 
     public static HashMap<String, String> build(String... data) {

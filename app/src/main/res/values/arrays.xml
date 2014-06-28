@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="action_list">
         <item>@string/home</item>
         <item>@string/viewed</item>
         <item>@string/posted</item>
     </string-array>
+
+    <string-array name="action_detail">
+        <item>@string/chats</item>
+        <item>@string/images</item>
+    </string-array>
+
 </resources>

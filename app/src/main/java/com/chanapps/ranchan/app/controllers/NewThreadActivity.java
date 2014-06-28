@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
-import com.chanapps.ranchan.app.views.NewThreadFragment;
+import com.chanapps.ranchan.app.fragments.NewThreadFragment;
 
 
 /**
@@ -19,7 +19,7 @@ import com.chanapps.ranchan.app.views.NewThreadFragment;
  * in a {@link com.chanapps.ranchan.app.controllers.ThreadListActivity}.
  * <p>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link com.chanapps.ranchan.app.views.NewThreadFragment}.
+ * more than a {@link com.chanapps.ranchan.app.fragments.NewThreadFragment}.
  */
 public class NewThreadActivity extends FragmentActivity implements NewThreadFragment.Callbacks {
 

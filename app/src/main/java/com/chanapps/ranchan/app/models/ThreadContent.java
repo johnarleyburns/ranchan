@@ -75,7 +75,7 @@ public class ThreadContent {
             c.add(Calendar.MINUTE, 2);
             addDetailItem(new ThreadItem("8b67d0c3-d7f0-4c0c-b6f9-66d5d3e3081b", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), "Isn't Sven 1/10", 12324, 0, 0, 0));
             c.add(Calendar.MINUTE, 1);
-            addDetailItem(new ThreadItem("7914c43c-2147-46c8-adda-ab21466b9f86", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), "Rate my favorite dota!", 0, 0, 0, 0));
+            addDetailItem(new ThreadItem("7914c43c-2147-46c8-adda-ab21466b9f86", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), "Rate my favorite dota!", 3452234, 0, 0, 0));
             c.add(Calendar.MINUTE, 5);
             addDetailItem(new ThreadItem("91cd097e-9953-47ae-aec0-cd410bfb6c33", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), ">Rate my favorite dota!\ncan i get these stuff for free or do i have to pay for it?  i new into dota 2", 0, 0, 0, 0));
             c.add(Calendar.MINUTE, 1);

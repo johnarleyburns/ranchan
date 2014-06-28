@@ -1,4 +1,4 @@
-package com.chanapps.ranchan.app.views;
+package com.chanapps.ranchan.app.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,10 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
-import com.chanapps.ranchan.app.models.ThreadContent;
-import com.chanapps.ranchan.app.models.ThreadItem;
 
 /**
  * A fragment representing a single Thread detail screen.

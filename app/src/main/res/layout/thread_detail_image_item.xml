@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/thread_list_item"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:paddingRight="@dimen/thread_inner"
+             android:paddingBottom="@dimen/thread_inner"
+        >
+
+    <com.chanapps.ranchan.app.views.SquareNetworkImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/thread_list_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
+
+    <TextView android:id="@+id/thread_list_item_date"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/thread_inner"
+              android:maxLines="1"
+              android:layout_gravity="right"
+              android:gravity="right"
+              android:textSize="@dimen/thread_subscript_textsize"
+              android:background="#88222222"
+              />
+
+</FrameLayout>

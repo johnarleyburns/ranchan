@@ -139,27 +139,24 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
                     mItems = new ArrayList<ThreadItem>(mItemsArray);
                 }
             }
-            if (mListType == ThreadListType.HOME) {
-                return filterByPrefix(prefix);
-            } else {
-                return filterByType();
-            }
+            return filterByPrefix(prefix);
         }
 
         protected FilterResults filterByPrefix(CharSequence prefix) {
-            FilterResults results = new FilterResults();
-            // No prefix is sent to filter by so we're going to send back the original array
+            List<ThreadItem> oldItems;
+            synchronized (mLock) {
+                oldItems = mItemsArray;
+            }
+            List<ThreadItem> preFiltered = filterByType(oldItems);
+            List<ThreadItem> filteredItems;
             if (prefix == null || prefix.length() == 0) {
-                synchronized (mLock) {
-                    results.values = mItemsArray;
-                    results.count = mItemsArray.size();
-                }
+                filteredItems = preFiltered;
             } else {
                 // Compare lower case strings
                 char[] searchChars = prefix.toString().toLowerCase().toCharArray();
                 StringSearch searcher = new BNDMCI();
                 // Local to here so we're not changing actual array
-                final List<ThreadItem> items = mItems;
+                final List<ThreadItem> items = preFiltered;
                 final int count = items.size();
                 final List<ThreadItem> newItems = new ArrayList<ThreadItem>(count);
                 for (int i = 0; i < count; i++) {
@@ -178,24 +175,22 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
                             }
                         } */
                 }
-                // Set and return
-                results.values = newItems;
-                results.count = newItems.size();
+                filteredItems = newItems;
             }
+
+
+            FilterResults results = new FilterResults();
+            results.values = filteredItems;
+            results.count = filteredItems.size();
             return results;
         }
 
-        protected FilterResults filterByType() {
-            FilterResults results = new FilterResults();
-            // Local to here so we're not changing actual array
-            final List<ThreadItem> items = mItems;
-            final int count = items.size();
+        protected List<ThreadItem> filterByType(List<ThreadItem> items) {
             List<ThreadItem> newItems;
             switch (mListType) {
                 default:
                 case HOME:
-                    newItems = new ArrayList<ThreadItem>(count);
-                    newItems.addAll(ThreadContent.getItems());
+                    newItems = items;
                     break;
                 case VIEWED:
                     Set<String> viewed = ThreadContent.getViewed();
@@ -230,13 +225,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
                     });
                     break;
             }
-            for (int i = 0; i < count; i++) {
-                final ThreadItem item = items.get(i);
-            }
-            // Set and return
-            results.values = newItems;
-            results.count = newItems.size();
-            return results;
+            return newItems;
         }
 
         @SuppressWarnings("unchecked")

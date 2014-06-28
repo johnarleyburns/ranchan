@@ -15,8 +15,8 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.models.ThreadListType;
-import com.chanapps.ranchan.app.views.ThreadDetailFragment;
-import com.chanapps.ranchan.app.views.ThreadListFragment;
+import com.chanapps.ranchan.app.fragments.ThreadDetailFragment;
+import com.chanapps.ranchan.app.fragments.ThreadListFragment;
 
 
 /**
@@ -28,11 +28,11 @@ import com.chanapps.ranchan.app.views.ThreadListFragment;
  * item details side-by-side using two vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link com.chanapps.ranchan.app.views.ThreadListFragment} and the item details
- * (if present) is a {@link com.chanapps.ranchan.app.views.ThreadDetailFragment}.
+ * {@link com.chanapps.ranchan.app.fragments.ThreadListFragment} and the item details
+ * (if present) is a {@link com.chanapps.ranchan.app.fragments.ThreadDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link com.chanapps.ranchan.app.views.ThreadListFragment.Callbacks} interface
+ * {@link com.chanapps.ranchan.app.fragments.ThreadListFragment.Callbacks} interface
  * to listen for item selections.
  */
 public class ThreadListActivity extends FragmentActivity

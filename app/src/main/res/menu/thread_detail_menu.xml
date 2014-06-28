@@ -37,6 +37,7 @@
             android:title="@string/download"
             android:icon="@drawable/ic_action_download"
             android:showAsAction="ifRoom"
+            android:visible="false"
             />
 
 </menu>

@@ -1,4 +1,4 @@
-package com.chanapps.ranchan.app.views;
+package com.chanapps.ranchan.app.fragments;
 
 
 

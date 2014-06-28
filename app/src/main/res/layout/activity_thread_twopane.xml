@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/thread_list"
-        android:name="com.chanapps.ranchan.app.views.ThreadListFragment"
+        android:name="com.chanapps.ranchan.app.fragments.ThreadListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -10,10 +10,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.application.VolleySingleton;
 import com.chanapps.ranchan.app.models.ThreadContent;
+import com.chanapps.ranchan.app.models.ThreadDetailType;
 import com.chanapps.ranchan.app.models.ThreadItem;
-import com.chanapps.ranchan.app.models.ThreadListType;
-import com.eaio.stringsearch.BNDMCI;
-import com.eaio.stringsearch.StringSearch;
 
 import java.util.*;
 
@@ -22,80 +20,104 @@ import java.util.*;
  */
 public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
 
-    private static final int RESOURCE_ID = R.layout.thread_detail_item;
+    private static final int ITEM_LAYOUT_ID = R.layout.thread_detail_item;
+    private static final int IMAGE_ITEM_LAYOUT_ID = R.layout.thread_detail_image_item;
     private static final int CONTENT_WITHIMAGE_ID = R.id.thread_list_item_content_withimage;
     private static final int CONTENT_NOIMAGE_ID = R.id.thread_list_item_content_noimage;
-    private static final int CHATS_ID = R.id.thread_list_item_chats;
     private static final int DATE_ID = R.id.thread_list_item_date;
     private static final int THUMB_ID = R.id.thread_list_item_thumb;
-    private static final int IMAGES_ID = R.id.thread_list_item_images;
-    private static final int CHATICON_ID = R.id.thread_list_item_chaticon;
-    private static final int IMAGEICON_ID = R.id.thread_list_item_imageicon;
-    private static final int ADULT_ID = R.id.thread_list_item_adult;
+    private static final int IMAGE_ID = R.id.thread_list_item_image;
 
     private final Object mLock = new Object();
-    private ThreadListType mListType = ThreadListType.HOME;
+    private ThreadDetailType mDetailType = ThreadDetailType.CHATS;
     private ThreadItemsFilter mFilter;
     public List<ThreadItem> mItemsArray; // base data
     public List<ThreadItem> mItems; // filtered data
 
     public ThreadDetailAdapter(Context context, List<ThreadItem> objects) {
-        super(context, RESOURCE_ID, objects);
+        super(context, ITEM_LAYOUT_ID, objects);
         mItemsArray = objects;
         mItems = objects;
     }
 
+    private int itemResourceId() {
+        switch (mDetailType) {
+            default:
+            case CHATS:
+                return ITEM_LAYOUT_ID;
+            case IMAGES:
+                return IMAGE_ITEM_LAYOUT_ID;
+        }
+    }
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ThreadItem item = getItem(position);
 
         View view;
-        if (convertView == null) {
-            view = View.inflate(getContext(), RESOURCE_ID, null);
+        int resId = itemResourceId();
+        if (convertView == null || convertView.getId() != resId) {
+            view = View.inflate(getContext(), resId, null);
         } else {
             view = convertView;
         }
 
+        switch (mDetailType) {
+            default:
+            case CHATS:
+                return getItemView(view, item);
+            case IMAGES:
+                return getImageItemView(view, item);
+        }
+    }
+    
+    private View getItemView(View view, ThreadItem item) {
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
-        if (item.parentId == null) {
-            ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
-            ((TextView) view.findViewById(IMAGES_ID)).setText(String.valueOf(item.images));
-            view.findViewById(CHATS_ID).setVisibility(View.VISIBLE);
-            view.findViewById(IMAGES_ID).setVisibility(View.VISIBLE);
-            view.findViewById(CHATICON_ID).setVisibility(View.VISIBLE);
-            view.findViewById(IMAGEICON_ID).setVisibility(item.adult() && item.parentId == null ? View.INVISIBLE : View.VISIBLE);
-            view.findViewById(ADULT_ID).setVisibility(item.adult() && item.parentId == null ? View.VISIBLE : View.INVISIBLE);
-        }
-        else {
-            view.findViewById(CHATS_ID).setVisibility(View.GONE);
-            view.findViewById(IMAGES_ID).setVisibility(View.GONE);
-            view.findViewById(CHATICON_ID).setVisibility(View.GONE);
-            view.findViewById(IMAGEICON_ID).setVisibility(View.GONE);
-            view.findViewById(ADULT_ID).setVisibility(View.GONE);
-        }
-
-
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
         String url = item.thumbUrl();
+        int ignoreTextId;
+        int textId;
         if (url == null) {
-            ((TextView) view.findViewById(CONTENT_WITHIMAGE_ID)).setText(null);
-            setContentText(view, CONTENT_NOIMAGE_ID, item);
-            thumb.setDefaultImageResId(0);
-            thumb.setErrorImageResId(0);
-            thumb.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
+            ignoreTextId = CONTENT_WITHIMAGE_ID;
+            textId = CONTENT_NOIMAGE_ID;
         }
         else {
-            ((TextView) view.findViewById(CONTENT_NOIMAGE_ID)).setText(null);
-            setContentText(view, CONTENT_WITHIMAGE_ID, item);
-            thumb.setDefaultImageResId(R.drawable.pre_content);
-            thumb.setErrorImageResId(R.drawable.no_content);
-            thumb.setImageUrl(url, VolleySingleton.getInstance().getImageLoader());
+            ignoreTextId = CONTENT_NOIMAGE_ID;
+            textId = CONTENT_WITHIMAGE_ID;
         }
-
+        ((TextView) view.findViewById(ignoreTextId)).setText(null);
+        setContentText(view, textId, item);
+        smartSetNetworkImageView(url, thumb);
         return view;
     }
 
+    private View getImageItemView(View view, ThreadItem item) {
+        TextView dateView = ((TextView) view.findViewById(DATE_ID));
+        if (dateView != null) {
+            dateView.setText(item.shortDate(getContext()));
+        }
+        NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
+        //String url = item.previewUrl();
+        String url = item.thumbUrl();
+        smartSetNetworkImageView(url, image);
+        return view;
+    }
+
+    private void smartSetNetworkImageView(String url, NetworkImageView view) {
+        if (url == null) {
+            view.setDefaultImageResId(0);
+            view.setErrorImageResId(0);
+            view.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
+        }
+        else {
+            view.setDefaultImageResId(R.drawable.pre_content);
+            view.setErrorImageResId(R.drawable.no_content);
+            view.setImageUrl(url, VolleySingleton.getInstance().getImageLoader());
+        }
+
+    }
+    
     private void setContentText(View view, int resourceId, ThreadItem item) {
         /*
         if (item.mine) {
@@ -139,8 +161,11 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         return mFilter;
     }
 
-    public void setListType(ThreadListType listType) {
-        mListType = listType;
+    public void setDetailType(ThreadDetailType detailType) {
+        mDetailType = detailType;
+        switch (mDetailType) {
+            case CHATS:
+        }
     }
 
     private class ThreadItemsFilter extends Filter {
@@ -152,68 +177,30 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
                     mItems = new ArrayList<ThreadItem>(mItemsArray);
                 }
             }
-            if (mListType == ThreadListType.HOME) {
-                return filterByPrefix(prefix);
-            } else {
-                return filterByType();
-            }
-        }
-
-        protected FilterResults filterByPrefix(CharSequence prefix) {
-            FilterResults results = new FilterResults();
-            // No prefix is sent to filter by so we're going to send back the original array
-            if (prefix == null || prefix.length() == 0) {
-                synchronized (mLock) {
-                    results.values = mItemsArray;
-                    results.count = mItemsArray.size();
-                }
-            } else {
-                // Compare lower case strings
-                char[] searchChars = prefix.toString().toLowerCase().toCharArray();
-                StringSearch searcher = new BNDMCI();
-                // Local to here so we're not changing actual array
-                final List<ThreadItem> items = mItems;
-                final int count = items.size();
-                final List<ThreadItem> newItems = new ArrayList<ThreadItem>(count);
-                for (int i = 0; i < count; i++) {
-                    final ThreadItem item = items.get(i);
-                    // First match against the whole, non-splitted value
-                    if (searcher.searchChars(item.content.toCharArray(), searchChars) >= 0) {
-                        newItems.add(item);
-                    } else {} /* This is option and taken from the source of ArrayAdapter
-                            final String[] words = itemName.split(" ");
-                            final int wordCount = words.length;
-                            for (int k = 0; k < wordCount; k++) {
-                                if (words[k].startsWith(prefixString)) {
-                                    newItems.add(item);
-                                    break;
-                                }
-                            }
-                        } */
-                }
-                // Set and return
-                results.values = newItems;
-                results.count = newItems.size();
-            }
-            return results;
+            return filterByType();
         }
 
         protected FilterResults filterByType() {
             FilterResults results = new FilterResults();
             // Local to here so we're not changing actual array
-            final List<ThreadItem> items = mItems;
-            final int count = items.size();
+            List<ThreadItem> allItems = ThreadContent.getDetailItems();
             List<ThreadItem> newItems;
-            switch (mListType) {
+            switch (mDetailType) {
                 default:
-                    newItems = new ArrayList<ThreadItem>(count);
-                    newItems.addAll(ThreadContent.getDetailItems());
+                case CHATS:
+                    synchronized (mLock) { // Notice the declaration above
+                        newItems = allItems;
+                    }
+                    break;
+                case IMAGES:
+                    newItems = new ArrayList<ThreadItem>();
+                    for (ThreadItem item : allItems) {
+                        if (item.hasImage()) {
+                            newItems.add(item);
+                        }
+                    }
                     break;
             }
-            for (int i = 0; i < count; i++) {
-                final ThreadItem item = items.get(i);
-            }
-            // Set and return
             results.values = newItems;
             results.count = newItems.size();
             return results;
