@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-          <!--
-<RelativeLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        >
-    <WebView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
--->
-    <com.chanapps.ranchan.app.views.ImageSizingWebView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/web_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        />
-
-        <!--
-    </FrameLayout>
-          -->
+        android:background="@android:color/background_dark"
+        >
+    <com.chanapps.ranchan.app.views.ImageSizingWebView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/web_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+    <ImageView
+            android:id="@+id/download_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_action_download"
+            android:layout_gravity="right|bottom"
+            android:background="@android:color/background_dark"
+            />
+</FrameLayout>

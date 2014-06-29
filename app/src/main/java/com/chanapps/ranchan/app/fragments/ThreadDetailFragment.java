@@ -1,19 +1,23 @@
 package com.chanapps.ranchan.app.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadDetailAdapter;
+import com.chanapps.ranchan.app.models.ThreadContent;
 import com.chanapps.ranchan.app.models.ThreadDetailType;
+import com.chanapps.ranchan.app.models.ThreadItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a single Thread detail screen.
@@ -28,6 +32,7 @@ public class ThreadDetailFragment extends ListFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    private static final boolean TEST_MODE = true;
 
     /**
      * The dummy content this fragment is presenting.
@@ -55,8 +60,20 @@ public class ThreadDetailFragment extends ListFragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
         }
+        if (mAdapter == null) {
+            if (TEST_MODE) {
+                ThreadContent.loadDetail();
+                List<ThreadItem> items = new ArrayList<ThreadItem>();
+                items.addAll(ThreadContent.getDetailItems());
+                mAdapter = new ThreadDetailAdapter(getActivity(), items);
+            }
+            else {
+                throw new UnsupportedOperationException("Only test mode currently implemented");
+            }
+        }
         mAdapter.setDetailType(ThreadDetailType.CHATS);
         asyncLoadThreadList();
+
     }
 
     @Override
@@ -75,6 +92,7 @@ public class ThreadDetailFragment extends ListFragment {
             ((TextView) rootView.findViewById(R.id.thread_detail)).setText(mItem.content);
         }
         */
+
         return view;
     }
 
@@ -99,4 +117,5 @@ public class ThreadDetailFragment extends ListFragment {
     public void clearFilter() {
         filter(null);
     }
+
 }

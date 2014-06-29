@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/thread_list_item"
-             android:layout_width="match_parent"
-    android:layout_height="@dimen/thread_height"
-    >
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/thread_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thread_height"
+        android:background="?android:attr/activatedBackgroundIndicator"
+        >
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/thread_list_item_thumb"

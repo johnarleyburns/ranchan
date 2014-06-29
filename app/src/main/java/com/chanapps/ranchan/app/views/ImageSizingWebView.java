@@ -64,7 +64,7 @@ public class ImageSizingWebView extends WebView {
         settings.setAppCacheEnabled(true);
         settings.setSupportZoom(true);
         settings.setJavaScriptEnabled(false);
-        setBackgroundColor(getContext().getResources().getColor(R.color.thread_divider));
+        setBackgroundColor(getContext().getResources().getColor(android.R.color.background_dark));
     }
 
     private void calcScaledBox() {

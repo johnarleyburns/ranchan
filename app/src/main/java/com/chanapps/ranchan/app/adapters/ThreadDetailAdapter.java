@@ -1,23 +1,18 @@
 package com.chanapps.ranchan.app.adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.DialogFragment;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.android.volley.toolbox.NetworkImageView;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.application.VolleySingleton;
@@ -253,18 +248,19 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         final String url = item.previewUrl();
         final int width = item.width;
         final int height = item.height;
+        final String id = item.id;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayImageDialog(url, width, height);
+                displayImageDialog(url, id, width, height);
             }
         });
     }
 
-    private void displayImageDialog(String url, int width, int height) {
+    private void displayImageDialog(final String url, final String id, final int width, final int height) {
         Activity activity = getContext() instanceof Activity ? (Activity) getContext() : null;
         if (activity != null) {
-            Dialog dialog = new Dialog(activity);
+            final Dialog dialog = new Dialog(activity);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(true);
@@ -272,8 +268,41 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             final ImageSizingWebView webView = (ImageSizingWebView) dialog.findViewById(R.id.web_view);
             webView.setImageSize(width, height);
             webView.loadUrl(url);
+            final ImageView downloadButton = (ImageView)dialog.findViewById(R.id.download_button);
+            setDownloadListener(url, id, downloadButton, new ImageDialogCallback() {
+                public void dismiss() {
+                    dialog.dismiss();
+                }
+            });
             dialog.show();
         }
+    }
+
+    private abstract class ImageDialogCallback {
+        abstract public void dismiss();
+    }
+
+    private void setDownloadListener(final String url, final String id, final View button, final ImageDialogCallback callback) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(), "download " + url, Toast.LENGTH_SHORT).show();
+                Uri uri = Uri.parse(url);
+                DownloadManager.Request r = new DownloadManager.Request(uri);
+                // This put the download in the same Download dir the browser uses
+                r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, id);
+                // When downloading music and videos they will be listed in the player
+                // (Seems to be available since Honeycomb only)
+                r.allowScanningByMediaScanner();
+                // Notify user when download is completed
+                // (Seems to be available since Honeycomb only)
+                r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                // Start download
+                DownloadManager dm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                dm.enqueue(r);
+                callback.dismiss();
+            }
+        });
     }
 
 }
