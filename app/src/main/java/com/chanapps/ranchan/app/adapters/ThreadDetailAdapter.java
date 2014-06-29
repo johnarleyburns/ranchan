@@ -1,17 +1,30 @@
 package com.chanapps.ranchan.app.adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.view.*;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.android.volley.toolbox.NetworkImageView;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.application.VolleySingleton;
 import com.chanapps.ranchan.app.models.ThreadContent;
 import com.chanapps.ranchan.app.models.ThreadDetailType;
 import com.chanapps.ranchan.app.models.ThreadItem;
+import com.chanapps.ranchan.app.views.ImageSizingWebView;
 
 import java.util.*;
 
@@ -49,7 +62,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
                 return IMAGE_ITEM_LAYOUT_ID;
         }
     }
-    
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -71,7 +84,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
                 return getImageItemView(view, item);
         }
     }
-    
+
     private View getItemView(View view, ThreadItem item) {
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
@@ -81,14 +94,14 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         if (url == null) {
             ignoreTextId = CONTENT_WITHIMAGE_ID;
             textId = CONTENT_NOIMAGE_ID;
-        }
-        else {
+        } else {
             ignoreTextId = CONTENT_NOIMAGE_ID;
             textId = CONTENT_WITHIMAGE_ID;
         }
         ((TextView) view.findViewById(ignoreTextId)).setText(null);
         setContentText(view, textId, item);
         smartSetNetworkImageView(url, thumb);
+        setImageDialogClickListener(item, thumb);
         return view;
     }
 
@@ -98,10 +111,26 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             dateView.setText(item.shortDate(getContext()));
         }
         NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
-        //String url = item.previewUrl();
         String url = item.thumbUrl();
         smartSetNetworkImageView(url, image);
+        setImageDialogClickListener(item, image);
         return view;
+    }
+
+    private void setBrowseImageClickListener(final String url, View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browse(url);
+            }
+        });
+    }
+
+    private void browse(final String url) {
+        Activity activity = getContext() instanceof Activity ? (Activity) getContext() : null;
+        if (activity != null) {
+            activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        }
     }
 
     private void smartSetNetworkImageView(String url, NetworkImageView view) {
@@ -109,15 +138,13 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             view.setDefaultImageResId(0);
             view.setErrorImageResId(0);
             view.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
-        }
-        else {
+        } else {
             view.setDefaultImageResId(R.drawable.pre_content);
             view.setErrorImageResId(R.drawable.no_content);
             view.setImageUrl(url, VolleySingleton.getInstance().getImageLoader());
         }
-
     }
-    
+
     private void setContentText(View view, int resourceId, ThreadItem item) {
         /*
         if (item.mine) {
@@ -132,7 +159,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         }
         else {
         */
-            ((TextView) view.findViewById(resourceId)).setText(item.content);
+        ((TextView) view.findViewById(resourceId)).setText(item.content);
         //}
     }
 
@@ -140,14 +167,17 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     public int getCount() {
         return mItems.size();
     }
+
     @Override
     public ThreadItem getItem(int position) {
         return mItems.get(position);
     }
+
     @Override
     public int getPosition(ThreadItem item) {
         return mItems.indexOf(item);
     }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -218,4 +248,32 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             }
         }
     }
+
+    private void setImageDialogClickListener(final ThreadItem item, final View view) {
+        final String url = item.previewUrl();
+        final int width = item.width;
+        final int height = item.height;
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayImageDialog(url, width, height);
+            }
+        });
+    }
+
+    private void displayImageDialog(String url, int width, int height) {
+        Activity activity = getContext() instanceof Activity ? (Activity) getContext() : null;
+        if (activity != null) {
+            Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.setContentView(R.layout.image_dialog);
+            final ImageSizingWebView webView = (ImageSizingWebView) dialog.findViewById(R.id.web_view);
+            webView.setImageSize(width, height);
+            webView.loadUrl(url);
+            dialog.show();
+        }
+    }
+
 }

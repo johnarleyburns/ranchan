@@ -24,6 +24,8 @@
               android:layout_marginLeft="@dimen/thread_height"
               android:layout_marginRight="@dimen/thread_right"
               android:textSize="@dimen/thread_content_textsize"
+              android:textIsSelectable="true"
+              android:autoLink="web"
             />
 
     <TextView android:id="@+id/thread_list_item_content_noimage"
@@ -37,6 +39,8 @@
               android:maxLines="@integer/thread_lines"
               android:layout_marginRight="@dimen/thread_right"
               android:textSize="@dimen/thread_content_textsize"
+              android:textIsSelectable="true"
+              android:autoLink="web"
             />
 
     <TextView android:id="@+id/thread_list_item_date"
