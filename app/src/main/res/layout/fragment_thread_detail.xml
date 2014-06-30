@@ -8,4 +8,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:fastScrollEnabled="true"
+        android:divider="@null"
         />
