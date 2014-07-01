@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="thread_lines">3</integer>
+    <integer name="thread_lines">4</integer>
     <integer name="thread_search_lines">2</integer>
     <integer name="new_thread_content_minLines">7</integer>
     <integer name="image_grid_columns">3</integer>

@@ -6,8 +6,8 @@
         android:id="@+id/thread_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/thread_outer"
-        android:paddingRight="@dimen/thread_outer_plus"
+        android:paddingLeft="@dimen/thread_outer_plus"
+        android:paddingRight="@dimen/thread_outer"
         android:paddingTop="@dimen/thread_inner"
         android:paddingBottom="@dimen/thread_inner"
         >
@@ -15,7 +15,7 @@
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/dark_chat_background"
+            android:background="@drawable/dark_chat_background_self"
             android:orientation="vertical"
             android:showDividers="middle"
             android:divider="@drawable/thread_detail_item_divider"
@@ -23,15 +23,18 @@
             android:paddingRight="@dimen/thread_outer"
             android:paddingTop="@dimen/thread_inner"
             android:paddingBottom="@dimen/thread_outer"
+            android:layout_gravity="right"
             >
 
         <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/thread_list_item_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitStart"
+                android:scaleType="fitEnd"
                 android:maxWidth="@dimen/thread_image"
                 android:maxHeight="@dimen/thread_image"
+                android:layout_gravity="right"
+                android:gravity="right"
                 />
 
         <TextView android:id="@+id/thread_list_item_content"
@@ -41,6 +44,8 @@
                   android:textSize="@dimen/thread_content_textsize"
                   android:textIsSelectable="true"
                   android:autoLink="web"
+                  android:layout_gravity="right"
+                  android:gravity="right"
                 />
 
         <TextView android:id="@+id/thread_list_item_date"
@@ -48,6 +53,8 @@
                   android:layout_height="wrap_content"
                   android:maxLines="1"
                   android:textSize="@dimen/thread_subscript_textsize"
+                  android:layout_gravity="right"
+                  android:gravity="right"
                 />
 
     </LinearLayout>

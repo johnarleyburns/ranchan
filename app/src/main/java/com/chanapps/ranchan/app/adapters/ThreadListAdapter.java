@@ -30,7 +30,6 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
     private static final int DATE_ID = R.id.thread_list_item_date;
     private static final int THUMB_ID = R.id.thread_list_item_thumb;
     private static final int IMAGES_ID = R.id.thread_list_item_images;
-    private static final int IMAGEICON_ID = R.id.thread_list_item_imageicon;
     private static final int ADULT_ID = R.id.thread_list_item_adult;
 
     private final Object mLock = new Object();
@@ -60,7 +59,6 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
         ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
         ((TextView) view.findViewById(IMAGES_ID)).setText(String.valueOf(item.images));
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
-        view.findViewById(IMAGEICON_ID).setVisibility(item.adult() ? View.INVISIBLE : View.VISIBLE);
         view.findViewById(ADULT_ID).setVisibility(item.adult() ? View.VISIBLE : View.INVISIBLE);
 
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
@@ -213,7 +211,7 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
                     newItems = new ArrayList<ThreadItem>(posted.size());
                     for (String id : posted) {
                         ThreadItem item = ThreadContent.getItem(id);
-                        if (item != null) {
+                        if (item != null && item.parentId == null) {
                             newItems.add(item);
                         }
                     }

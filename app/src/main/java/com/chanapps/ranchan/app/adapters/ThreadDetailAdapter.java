@@ -29,11 +29,10 @@ import java.util.*;
 public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
 
     private static final int ITEM_LAYOUT_ID = R.layout.thread_detail_item;
+    private static final int SELF_ITEM_LAYOUT_ID = R.layout.thread_detail_item_self;
     private static final int IMAGE_ITEM_LAYOUT_ID = R.layout.thread_detail_image_item;
-    private static final int CONTENT_WITHIMAGE_ID = R.id.thread_list_item_content_withimage;
-    private static final int CONTENT_NOIMAGE_ID = R.id.thread_list_item_content_noimage;
+    private static final int CONTENT_ID = R.id.thread_list_item_content;
     private static final int DATE_ID = R.id.thread_list_item_date;
-    private static final int THUMB_ID = R.id.thread_list_item_thumb;
     private static final int IMAGE_ID = R.id.thread_list_item_image;
 
     private final Object mLock = new Object();
@@ -48,11 +47,16 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         mItems = objects;
     }
 
-    private int itemResourceId() {
+    private int itemResourceId(ThreadItem item) {
         switch (mDetailType) {
             default:
             case CHATS:
-                return ITEM_LAYOUT_ID;
+                if (ThreadContent.getPosted().contains(item.id)) {
+                    return SELF_ITEM_LAYOUT_ID;
+                }
+                else {
+                    return ITEM_LAYOUT_ID;
+                }
             case IMAGES:
                 return IMAGE_ITEM_LAYOUT_ID;
         }
@@ -64,7 +68,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         ThreadItem item = getItem(position);
 
         View view;
-        int resId = itemResourceId();
+        int resId = itemResourceId(item);
         if (convertView == null || convertView.getId() != resId) {
             view = View.inflate(getContext(), resId, null);
         } else {
@@ -82,21 +86,11 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
 
     private View getItemView(View view, ThreadItem item) {
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
-        NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
+        NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
         String url = item.thumbUrl();
-        int ignoreTextId;
-        int textId;
-        if (url == null) {
-            ignoreTextId = CONTENT_WITHIMAGE_ID;
-            textId = CONTENT_NOIMAGE_ID;
-        } else {
-            ignoreTextId = CONTENT_NOIMAGE_ID;
-            textId = CONTENT_WITHIMAGE_ID;
-        }
-        ((TextView) view.findViewById(ignoreTextId)).setText(null);
-        setContentText(view, textId, item);
-        smartSetNetworkImageView(url, thumb);
-        setImageDialogClickListener(item, thumb);
+        setContentText(view, CONTENT_ID, item);
+        smartSetNetworkImageView(url, image);
+        setImageDialogClickListener(item, image);
         return view;
     }
 
@@ -130,10 +124,12 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
 
     private void smartSetNetworkImageView(String url, NetworkImageView view) {
         if (url == null) {
+            view.setVisibility(View.GONE);
             view.setDefaultImageResId(0);
             view.setErrorImageResId(0);
             view.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
         } else {
+            view.setVisibility(View.VISIBLE);
             view.setDefaultImageResId(R.drawable.pre_content);
             view.setErrorImageResId(R.drawable.no_content);
             view.setImageUrl(url, VolleySingleton.getInstance().getImageLoader());
@@ -141,21 +137,9 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     }
 
     private void setContentText(View view, int resourceId, ThreadItem item) {
-        /*
-        if (item.mine) {
-            StringBuilder b = new StringBuilder();
-            b.append("<b>");
-            b.append(getContext().getString(R.string.your_thread));
-            b.append("</b>");
-            b.append(" ");
-            b.append(item.content);
-            ((TextView) view.findViewById(resourceId)).setText(Html.fromHtml(b.toString()));
-
-        }
-        else {
-        */
-        ((TextView) view.findViewById(resourceId)).setText(item.content);
-        //}
+        TextView tv = (TextView)view.findViewById(resourceId);
+        tv.setText(item.content);
+        tv.setVisibility(item.content == null ? View.GONE : View.VISIBLE);
     }
 
     @Override

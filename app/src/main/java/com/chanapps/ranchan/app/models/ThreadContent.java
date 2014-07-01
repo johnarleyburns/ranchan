@@ -88,6 +88,8 @@ public class ThreadContent {
             addDetailItem(new ThreadItem("c04cbb80-9c55-4096-9a56-788e276835cd", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), ">Faggot Tier/10\nPlaying MOBA at all.  Stop acting elitist over such a shitty type of game.", 0, 0, 0, 0, 0, 0));
             c.add(Calendar.MINUTE, 2);
             addDetailItem(new ThreadItem("6cef17c6-9719-486a-8535-97f2e4921122", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", c.getTime(), null, 4712, 3072, 2304, 0, 0, 0));
+            addPosted(getDetailItem(1).id);
+            addPosted(getDetailItem(10).id);
         }
     }
 
