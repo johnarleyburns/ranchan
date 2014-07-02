@@ -1,11 +1,12 @@
 package com.chanapps.ranchan.app.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
-import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadDetailAdapter;
 import com.chanapps.ranchan.app.models.ThreadContent;
+import com.chanapps.ranchan.app.models.ThreadContentTestHarness;
 import com.chanapps.ranchan.app.models.ThreadDetailType;
 import com.chanapps.ranchan.app.models.ThreadItem;
 
@@ -39,6 +41,9 @@ public class ThreadDetailFragment extends ListFragment {
      */
     private ThreadDetailType detailType = ThreadDetailType.CHATS;
     private ThreadDetailAdapter mAdapter;
+    private View mAttachPostButton;
+    private View mSendPostButton;
+    private EditText mNewPostText;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +67,7 @@ public class ThreadDetailFragment extends ListFragment {
         }
         if (mAdapter == null) {
             if (TEST_MODE) {
-                ThreadContent.loadDetail();
+                ThreadContentTestHarness.loadDetail();
                 List<ThreadItem> items = new ArrayList<ThreadItem>();
                 items.addAll(ThreadContent.getDetailItems());
                 mAdapter = new ThreadDetailAdapter(getActivity(), items);
@@ -71,7 +76,7 @@ public class ThreadDetailFragment extends ListFragment {
                 throw new UnsupportedOperationException("Only test mode currently implemented");
             }
         }
-        mAdapter.setDetailType(ThreadDetailType.CHATS);
+        //mAdapter.setDetailType(ThreadDetailType.CHATS);
         asyncLoadThreadList();
 
     }
@@ -82,6 +87,7 @@ public class ThreadDetailFragment extends ListFragment {
 
         View view = inflater.inflate(R.layout.fragment_thread_detail, container, false);
         View footer = inflater.inflate(R.layout.fragment_thread_detail_footer, null);
+        setupFooter(footer);
 
         ListView list = (ListView)view.findViewById(android.R.id.list);
         list.addFooterView(footer);
@@ -94,6 +100,47 @@ public class ThreadDetailFragment extends ListFragment {
         */
 
         return view;
+    }
+
+    private void setupFooter(View footer) {
+        mAttachPostButton = footer.findViewById(R.id.new_post_attach);
+        mSendPostButton = footer.findViewById(R.id.new_post_send);
+        mNewPostText = (EditText)footer.findViewById(R.id.new_post_text);
+        mAttachPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Attach Image", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mSendPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String postText = mNewPostText == null ? null : mNewPostText.getText().toString().trim();
+                if (postText == null || postText.length() == 0) {
+                    Toast.makeText(getActivity(), "Enter text to post", Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getActivity(), "Posting '" + postText +  "'...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mNewPostText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    mAttachPostButton.setVisibility(View.GONE);
+                    mSendPostButton.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mSendPostButton.setVisibility(View.GONE);
+                    mAttachPostButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void asyncLoadThreadList() {

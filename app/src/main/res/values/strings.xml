@@ -3,13 +3,14 @@
 
     <string name="app_name">Ranchan</string>
     <string name="app_label">@string/app_name</string>
-    <string name="thread_detail">Thread detail</string>
     <string name="search_hint"></string>
     <string name="search">Search</string>
     <string name="send">Send</string>
     <string name="new_thread">New thread</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="nickname">Nickname</string>
+    <string name="anonymous">anonymous</string>
     <string name="nsfw">NSFW</string>
     <string name="pref_adult_summary_on">Not-safe-for-work content is enabled</string>
     <string name="pref_adult_summary_off">Not-safe-for-work content is hidden</string>
@@ -29,4 +30,5 @@
     <string name="cancel">Cancel</string>
     <string name="text">text</string>
     <string name="thread_description">Thread description</string>
+    <string name="tilde_separator">\u0020~\u0020</string>
 </resources>

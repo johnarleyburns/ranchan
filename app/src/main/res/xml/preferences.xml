@@ -6,4 +6,9 @@
             android:summaryOn="@string/pref_adult_summary_on"
             android:summaryOff="@string/pref_adult_summary_off"
             android:defaultValue="false" />
+    <com.chanapps.ranchan.app.views.SummaryEditTextPreference
+            android:key="pref_nickname"
+            android:title="@string/nickname"
+            android:defaultValue="@string/anonymous"
+            />
 </PreferenceScreen>

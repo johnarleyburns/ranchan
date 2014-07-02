@@ -15,9 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.chanapps.ranchan.app.R;
 import com.chanapps.ranchan.app.adapters.ThreadListAdapter;
-import com.chanapps.ranchan.app.models.ThreadListType;
-import com.chanapps.ranchan.app.models.ThreadContent;
-import com.chanapps.ranchan.app.models.ThreadItem;
+import com.chanapps.ranchan.app.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -232,9 +230,9 @@ public class ThreadListFragment extends ListFragment {
             return;
         }
         if (TEST_MODE) {
-            ThreadContent.loadList();
+            ThreadContentTestHarness.loadList();
             List<ThreadItem> items = new ArrayList<ThreadItem>();
-            boolean adultEnabled = SettingsFragment.Preferences.adultEnabled(context);
+            boolean adultEnabled = Preferences.adultEnabled(context);
             if (!adultEnabled) {
                 for (ThreadItem item : ThreadContent.getItems()) {
                     if (!item.adult()) {

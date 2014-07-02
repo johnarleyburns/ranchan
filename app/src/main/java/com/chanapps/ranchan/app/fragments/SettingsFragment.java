@@ -14,17 +14,6 @@ import com.chanapps.ranchan.app.R;
 
 public class SettingsFragment extends PreferenceFragment {
 
-    public static enum Preferences {
-        PREF_ADULT("pref_adult");
-        public String prefKey;
-        Preferences(String prefKey) {
-            this.prefKey = prefKey;
-        }
-        public static boolean adultEnabled(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SettingsFragment.PREF_ADULT, false);
-        }
-    }
-
     public static final String PREF_ADULT = "pref_adult";
 
     @Override

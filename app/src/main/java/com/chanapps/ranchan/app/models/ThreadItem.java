@@ -7,36 +7,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A dummy item representing a piece of content.
  */
-public class ThreadItem {
+public class ThreadItem extends ThreadItemModel {
 
     private static final boolean TEST_MODE = true;
 
     public static final int FLAG_ADULT = 0x01;
 
-    private static final String THUMB_URL_FORMAT = "https://ranchan.org/t/%0d.jpg";  // 96x96
-    private static final String PREVIEW_URL_FORMAT = "https://ranchan.org/i/%0d.jpg"; // 960x960
-    private static final String FULL_URL_FORMAT = "https://ranchan.org/f/%0d.jpg"; // 3MB max ???
+    private static final String THUMB_URL_FORMAT = "https://ranchan.org/t/%0d.jpg";  // 512x512
+    private static final String IMAGE_URL_FORMAT = "https://ranchan.org/i/%0d.jpg"; // full image
 
-    public String id;
-    public String parentId;
-    public String content;
-    public Date date;
-    public int imageBytes;
-    public int width;
-    public int height;
-    public int flags;
-    public int chats;
-    public int images;
-
-    public ThreadItem(String id, String parentId, Date date, String content, int imageBytes, int width, int height, int flags, int chats, int images) {
+    public ThreadItem(String id, String parentId, String content, String nickname,
+                      Date date, int imageBytes, int width, int height,
+                      int flags, int chats, int images) {
         this.id = id;
         this.parentId = parentId;
         this.content = content;
+        this.nickname = nickname;
         this.date = date;
         this.imageBytes = imageBytes;
         this.width = width;
@@ -79,88 +69,34 @@ public class ThreadItem {
             return null;
         }
         if (TEST_MODE) {
-            return TEST_THUMBS.get(id);
+            return ThreadContentTestHarness.TEST_THUMBS.get(id);
         }
         else {
             return String.format(THUMB_URL_FORMAT, id);
         }
     }
 
-    public String previewUrl() {
+    public String imageUrl() {
         if (!hasImage()) {
             return null;
         }
         if (TEST_MODE) {
-            if (TEST_IMAGES.containsKey(id)) {
-                return TEST_IMAGES.get(id);
+            if (ThreadContentTestHarness.TEST_IMAGES.containsKey(id)) {
+                return ThreadContentTestHarness.TEST_IMAGES.get(id);
             }
             else {
-                return TEST_THUMBS.get(id);
+                return ThreadContentTestHarness.TEST_THUMBS.get(id);
             }
         }
         else {
-            return String.format(PREVIEW_URL_FORMAT, id);
+            return String.format(IMAGE_URL_FORMAT, id);
         }
-    }
-
-    public String fullUrl() {
-        return String.format(FULL_URL_FORMAT, id);
     }
 
     @Override
     public String toString() {
         return content;
     }
-
-    private static final Map<String, String> TEST_THUMBS = build(
-
-            "7cd91383-6b8b-4432-a5fc-a06d63d561cd", // 665x396
-            "https://upload.wikimedia.org/wikipedia/commons/5/54/Solitude_%281894076214%29.jpg",
-
-            "a8364469-3167-4573-b4c3-594d8bcb327e", //240x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Figure_in_Manga_style_variation_1.png/240px-Figure_in_Manga_style_variation_1.png",
-
-            "286d6398-a9fa-4f19-aa11-c58888d798b7", // 320x214
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Protesters_on_the_barricades%2C_seen_through_the_lights_of_fire_built._Euromaidan_Protests.jpg/320px-Protesters_on_the_barricades%2C_seen_through_the_lights_of_fire_built._Euromaidan_Protests.jpg",
-
-            "c96222a1-da6c-44b0-86c6-5fe17ddb41e8", // 320x213
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Porsche.jpg/320px-Porsche.jpg",
-
-            "19f13dc4-91cf-476a-9215-d76fe024e956", // 320x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Tremendo_gordo.jpg/320px-Tremendo_gordo.jpg",
-
-            "8cdd1917-e37b-4385-b777-123c0017e123", // 161x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Black_woman_dancing_%281634389290%29.jpg/161px-Black_woman_dancing_%281634389290%29.jpg",
-
-            "2aeafc10-891b-499d-b806-85f14c72a8af", // 200x200
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Flag_of_Islamic_State_of_Iraq.svg/200px-Flag_of_Islamic_State_of_Iraq.svg.png",
-
-            "ae748873-2ab2-4efe-a546-9024ccf760af", // 165x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Anime_girl_at_beach.jpg/165px-Anime_girl_at_beach.jpg",
-
-            "a2b18964-8b93-4074-a3a0-f56dfa180d68", // 528x396
-            "https://upload.wikimedia.org/wikipedia/commons/3/3c/Graffiti_Here_Please.jpg",
-
-            "f2b46979-13f5-4357-8379-bc4d4fc38a2e", // 160x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg/160px-Topless_woman_walking_on_Coral_Beach%2C_Jamaica.jpg",
-
-            "8b67d0c3-d7f0-4c0c-b6f9-66d5d3e3081b", // 192x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Sven_Melander.jpg/192px-Sven_Melander.jpg",
-
-            "7914c43c-2147-46c8-adda-ab21466b9f86", // 320x240
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dota-juku_01.JPG/320px-Dota-juku_01.JPG",
-
-            "6cef17c6-9719-486a-8535-97f2e4921122", // 210x396
-            "https://upload.wikimedia.org/wikipedia/commons/c/c3/Chavosh.jpg"
-
-    );
-
-    private static final Map<String, String> TEST_IMAGES = build(
-
-            "7914c43c-2147-46c8-adda-ab21466b9f86", // 3072x2304
-            "https://upload.wikimedia.org/wikipedia/commons/4/4b/Dota-juku_01.JPG"
-
-    );
 
     public static HashMap<String, String> build(String... data) {
         HashMap<String, String> result = new HashMap<String, String>();

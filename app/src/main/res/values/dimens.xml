@@ -16,6 +16,7 @@
 
     <dimen name="thread_right">64dp</dimen>
     <dimen name="thread_image_item_height">64dp</dimen>
+    <dimen name="thread_detail_footer_height">48dp</dimen>
     <dimen name="thread_height">72dp</dimen>
     <dimen name="thread_right_minus_icon">40dp</dimen>
     <!--<dimen name="thread_half">32dp</dimen> -->
@@ -32,10 +33,16 @@
     <dimen name="thread_content_textsize">14sp</dimen>
     <dimen name="thread_subscript_textsize">12sp</dimen>
     <dimen name="thread_outer_plus">11dp</dimen>
+    <dimen name="thread_outer_double">16dp</dimen>
     <dimen name="thread_outer">8dp</dimen>
     <dimen name="thread_inner">4dp</dimen>
     <dimen name="thread_divider">1dp</dimen>
     <dimen name="thread_search_bar">48dp</dimen>
+    <dimen name="thread_footer_edit_text_margin">56dp</dimen>
     <dimen name="thread_image">256dp</dimen>
+
+    <dimen name="thread_detail_outer">16dp</dimen>
+    <dimen name="thread_detail_inner">8dp</dimen>
+    <dimen name="thread_detail_mid">12dp</dimen>
 
 </resources>

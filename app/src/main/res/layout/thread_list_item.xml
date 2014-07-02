@@ -7,8 +7,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/thread_outer"
         android:paddingRight="@dimen/thread_outer"
-        android:paddingTop="@dimen/thread_inner"
-        android:paddingBottom="@dimen/thread_inner"
         >
 <!--
         android:background="?android:attr/activatedBackgroundIndicator"

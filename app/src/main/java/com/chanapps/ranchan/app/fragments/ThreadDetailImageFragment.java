@@ -54,7 +54,7 @@ public class ThreadDetailImageFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
         }
-        mAdapter.setDetailType(ThreadDetailType.IMAGES);
+        //mAdapter.setDetailType(ThreadDetailType.IMAGES);
         asyncLoadThreadList();
     }
 
