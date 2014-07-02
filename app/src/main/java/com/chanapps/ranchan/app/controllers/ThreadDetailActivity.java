@@ -106,6 +106,7 @@ public class ThreadDetailActivity extends FragmentActivity {
         return fragment;
     }
     */
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
@@ -113,6 +114,7 @@ public class ThreadDetailActivity extends FragmentActivity {
         inflater.inflate(R.menu.thread_detail_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+    */
     /*
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -138,6 +140,7 @@ public class ThreadDetailActivity extends FragmentActivity {
             case android.R.id.home:
                 NavUtils.navigateUpTo(this, new Intent(this, ThreadListActivity.class));
                 return true;
+            /*
             case R.id.menu_attach_image:
                 Toast.makeText(this, "image", Toast.LENGTH_SHORT).show();
                 return true;
@@ -150,6 +153,7 @@ public class ThreadDetailActivity extends FragmentActivity {
             case R.id.menu_download:
                 Toast.makeText(this, "download", Toast.LENGTH_SHORT).show();
                 return true;
+                */
             default:
                 return super.onOptionsItemSelected(item);
         }
