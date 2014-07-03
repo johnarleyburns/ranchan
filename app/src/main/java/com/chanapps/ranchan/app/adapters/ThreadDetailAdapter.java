@@ -2,6 +2,7 @@ package com.chanapps.ranchan.app.adapters;
 
 import android.app.*;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -30,6 +31,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     private static final int CONTENT_ID = R.id.thread_list_item_content;
     private static final int FOOTER_ID = R.id.thread_list_item_footer;
     private static final int IMAGE_ID = R.id.thread_list_item_image;
+    private static final int REPLY_ID = R.id.thread_list_item_reply;
 
     private final Object mLock = new Object();
     //private ThreadDetailType mDetailType = ThreadDetailType.CHATS;
@@ -107,11 +109,53 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         ((TextView) view.findViewById(FOOTER_ID)).setText(itemFooter(item));
         NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
         String url = item.thumbUrl();
-        setContentText(view, CONTENT_ID, item);
+        setContentText(view, CONTENT_ID, item.content);
+        setReplyView(view.findViewById(REPLY_ID), item.content);
         smartSetNetworkImageView(url, image);
         setImageDialogClickListener(item, image);
         return view;
     }
+
+    private void setReplyView(View view, final String content) {
+        if (view == null) {
+            return;
+        }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View layout = ((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                        .inflate(R.layout.dialog_reply_thread_item, null);
+                final EditText reply = (EditText)layout.findViewById(R.id.thread_text);
+                reply.setText(replyText(content));
+                (new AlertDialog.Builder(getContext()))
+                        .setTitle(null)
+                        .setView(layout)
+                        .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                doReply(reply.getText().toString());
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .create()
+                        .show();
+            }
+        });
+    }
+
+    private String replyText(String precontent) {
+        String content = precontent.trim().replaceAll("\n", "\n>");
+        String text = (new StringBuilder())
+                .append(content)
+                .append("\n")
+                .toString();
+        return text;
+    }
+
+    private void doReply(String replyText) {
+        Toast.makeText(getContext(), "replying...", Toast.LENGTH_SHORT).show();
+    }
+
     /*
     private View getImageItemView(View view, ThreadItem item) {
         TextView dateView = ((TextView) view.findViewById(FOOTER_ID));
@@ -155,10 +199,10 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         }
     }
 
-    private void setContentText(View view, int resourceId, ThreadItem item) {
+    private void setContentText(View view, int resourceId, String content) {
         TextView tv = (TextView)view.findViewById(resourceId);
-        tv.setText(item.content);
-        tv.setVisibility(item.content == null ? View.GONE : View.VISIBLE);
+        tv.setText(content);
+        tv.setVisibility(content == null ? View.GONE : View.VISIBLE);
     }
 
     @Override
