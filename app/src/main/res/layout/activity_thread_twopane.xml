@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/thread_detail_outer"
+    android:layout_marginRight="@dimen/thread_detail_outer"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
@@ -26,13 +26,13 @@
         android:name="com.chanapps.ranchan.app.fragments.ThreadListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="@integer/twopane_list_weight"
         tools:layout="@android:layout/list_content" />
 
     <FrameLayout
         android:id="@+id/thread_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="@integer/twopane_detail_weight" />
 
 </LinearLayout>

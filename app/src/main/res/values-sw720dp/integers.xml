@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="twopane_list_weight">1</integer>
+    <integer name="twopane_detail_weight">2</integer>
+
+</resources>
