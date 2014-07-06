@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="thread_divider">#33b5e5</color>
+    <color name="tint_color">#33b5e5</color>
+
+    <color name="tint_color_selected">#8833b5e5</color>
 
 </resources>

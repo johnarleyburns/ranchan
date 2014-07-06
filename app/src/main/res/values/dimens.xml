@@ -17,20 +17,18 @@
     <dimen name="thread_right">64dp</dimen>
     <dimen name="thread_image_item_height">64dp</dimen>
     <dimen name="thread_detail_footer_height">48dp</dimen>
-    <dimen name="thread_height">72dp</dimen>
+    <dimen name="thread_height">144dp</dimen>
+    <dimen name="thread_thumb_width">144dp</dimen>
+    <dimen name="thread_thumb_width_margined">152dp</dimen>
     <dimen name="thread_right_minus_icon">40dp</dimen>
     <!--<dimen name="thread_half">32dp</dimen> -->
     <dimen name="thread_half">36dp</dimen>
     <dimen name="thread_action_icon">32dp</dimen>
-    <dimen name="thread_chats_top">17dp</dimen>
-    <dimen name="thread_chats_top_icon">18dp</dimen>
-    <dimen name="thread_images_top">33dp</dimen>
-    <dimen name="thread_images_top_icon">33dp</dimen>
-    <dimen name="thread_adult_top">51dp</dimen>
-    <dimen name="thread_icon_outer">24dp</dimen>
+    <dimen name="thread_chats_left">24dp</dimen>
     <dimen name="thread_icon">16dp</dimen>
     <dimen name="thread_entry_textsize">16sp</dimen>
-    <dimen name="thread_content_textsize">14sp</dimen>
+    <dimen name="thread_list_subject">22sp</dimen>
+    <dimen name="thread_content_textsize">16sp</dimen>
     <dimen name="thread_subscript_textsize">12sp</dimen>
     <dimen name="thread_outer_plus">11dp</dimen>
     <dimen name="thread_outer_double">16dp</dimen>
@@ -40,9 +38,13 @@
     <dimen name="thread_search_bar">48dp</dimen>
     <dimen name="thread_footer_edit_text_margin">56dp</dimen>
     <dimen name="thread_image">256dp</dimen>
+    <dimen name="thread_divider_height">12dp</dimen>
+    <dimen name="thread_inner_divider_height">4dp</dimen>
 
     <dimen name="thread_detail_outer">16dp</dimen>
     <dimen name="thread_detail_inner">8dp</dimen>
     <dimen name="thread_detail_mid">12dp</dimen>
+    <dimen name="thread_detail_icon_right">24dp</dimen>
+    <dimen name="thread_detail_footer_right">56dp</dimen>
 
 </resources>

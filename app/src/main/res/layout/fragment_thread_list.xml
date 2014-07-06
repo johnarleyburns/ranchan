@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/thread_divider"
                 android:layout_gravity="bottom"
-                android:background="@color/thread_divider"
+                android:background="@color/tint_color"
                 />
     </FrameLayout>
 
@@ -48,8 +48,8 @@
         android:layout_alignParentTop="true"
         android:fastScrollEnabled="true"
         android:divider="@drawable/thread_list_item_divider"
-        android:paddingTop="@dimen/thread_outer"
-        android:paddingBottom="@dimen/thread_outer"
+        android:paddingTop="@dimen/thread_divider_height"
+        android:paddingBottom="@dimen/thread_divider_height"
         android:clipToPadding="false"
 
         />

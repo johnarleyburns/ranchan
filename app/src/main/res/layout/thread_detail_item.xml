@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/thread_outer"
         android:paddingRight="@dimen/thread_outer"
+        android:foreground="@drawable/thread_detail_item_selector"
         >
 
     <LinearLayout
@@ -16,7 +17,7 @@
             android:background="@drawable/dark_chat_background"
             android:orientation="vertical"
             android:showDividers="middle"
-            android:divider="@drawable/thread_detail_item_divider"
+            android:divider="@drawable/thread_detail_inner_divider"
             android:paddingLeft="@dimen/thread_detail_outer"
             android:paddingRight="@dimen/thread_detail_outer"
             android:paddingTop="@dimen/thread_detail_inner"
@@ -37,12 +38,13 @@
                 android:id="@+id/thread_list_item_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:textSize="@dimen/thread_content_textsize"
-                android:textIsSelectable="true"
+                android:textIsSelectable="false"
                 android:autoLink="web"
                 />
-
+<!--
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+-->
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -54,6 +56,15 @@
                     android:maxLines="1"
                     android:textSize="@dimen/thread_subscript_textsize"
                     />
+            <!--
+            <ImageView
+                    android:id="@+id/thread_list_item_trash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="@dimen/thread_detail_icon_right"
+                    android:src="@drawable/ic_context_discard"
+                    />
 
             <ImageView
                     android:id="@+id/thread_list_item_reply"
@@ -62,7 +73,7 @@
                     android:layout_gravity="right|bottom"
                     android:src="@drawable/ic_context_reply"
                     />
-
+             -->
         </FrameLayout>
 
     </LinearLayout>

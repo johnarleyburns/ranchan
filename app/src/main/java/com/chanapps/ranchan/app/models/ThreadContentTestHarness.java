@@ -75,7 +75,7 @@ public class ThreadContentTestHarness {
             c.add(Calendar.MINUTE, 3);
             ThreadContent.addDetailItem(new ThreadItem("c04cbb80-9c55-4096-9a56-788e276835cd", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", ">Faggot Tier/10\nPlaying MOBA at all.  Stop acting elitist over such a shitty type of game.", null, c.getTime(), 0, 0, 0, 0, 0, 0));
             c.add(Calendar.MINUTE, 2);
-            ThreadContent.addDetailItem(new ThreadItem("6cef17c6-9719-486a-8535-97f2e4921122", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", null, null, c.getTime(), 4712, 3072, 2304, 0, 0, 0));
+            ThreadContent.addDetailItem(new ThreadItem("6cef17c6-9719-486a-8535-97f2e4921122", "7cd91383-6b8b-4432-a5fc-a06d63d561cd", null, null, c.getTime(), 55832, 307, 578, 0, 0, 0));
             ThreadContent.addPosted(ThreadContent.getDetailItem(1).id);
             ThreadContent.addPosted(ThreadContent.getDetailItem(10).id);
         }
@@ -119,7 +119,7 @@ public class ThreadContentTestHarness {
             "7914c43c-2147-46c8-adda-ab21466b9f86", // 320x240
             "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dota-juku_01.JPG/320px-Dota-juku_01.JPG",
 
-            "6cef17c6-9719-486a-8535-97f2e4921122", // 210x396
+            "6cef17c6-9719-486a-8535-97f2e4921122", // 307x578
             "https://upload.wikimedia.org/wikipedia/commons/c/c3/Chavosh.jpg"
 
     );

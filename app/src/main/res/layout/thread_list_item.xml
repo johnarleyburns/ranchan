@@ -15,103 +15,119 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            >
+        <!--
             android:paddingLeft="@dimen/thread_inner"
             android:paddingRight="0dp"
             android:paddingTop="@dimen/thread_inner"
             android:paddingBottom="@dimen/thread_outer"
             android:background="@drawable/dark_card_background"
             >
-
+         -->
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/thread_list_item_thumb"
-        android:layout_width="@dimen/thread_height"
+        android:layout_width="@dimen/thread_thumb_width"
         android:layout_height="@dimen/thread_height"
         android:scaleType="centerCrop"
         />
 
     <TextView android:id="@+id/thread_list_item_content_withimage"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/thread_height"
+              android:layout_height="wrap_content"
               android:textAppearance="?android:attr/textAppearanceListItemSmall"
               android:paddingLeft="@dimen/thread_outer"
               android:paddingRight="@dimen/thread_inner"
               android:maxLines="@integer/thread_lines"
               android:layout_marginLeft="@dimen/thread_height"
-              android:layout_marginRight="@dimen/thread_right"
-              android:textSize="@dimen/thread_content_textsize"
+              android:textSize="@dimen/thread_list_subject"
             />
 
     <TextView android:id="@+id/thread_list_item_content_noimage"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/thread_height"
+              android:layout_height="wrap_content"
               android:textAppearance="?android:attr/textAppearanceListItemSmall"
               android:paddingLeft="@dimen/thread_outer"
               android:paddingRight="@dimen/thread_inner"
               android:maxLines="@integer/thread_lines"
-              android:layout_marginRight="@dimen/thread_right"
-              android:textSize="@dimen/thread_content_textsize"
+              android:textSize="@dimen/thread_list_subject"
             />
 
     <TextView android:id="@+id/thread_list_item_date"
-              android:layout_width="@dimen/thread_right"
-              android:layout_height="@dimen/thread_half"
-              android:paddingRight="@dimen/thread_outer"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="@dimen/thread_outer"
               android:maxLines="1"
-              android:layout_gravity="right"
+              android:layout_gravity="right|bottom"
               android:gravity="right"
               android:textSize="@dimen/thread_subscript_textsize"
+              android:text="12:47 AM"
               />
 
     <TextView android:id="@+id/thread_list_item_chats"
-              android:layout_width="@dimen/thread_right_minus_icon"
-              android:layout_height="@dimen/thread_half"
-              android:layout_marginTop="@dimen/thread_chats_top"
-              android:layout_marginRight="@dimen/thread_icon_outer"
-              android:paddingRight="@dimen/thread_inner"
-              android:paddingBottom="@dimen/thread_inner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/thread_thumb_width_margined"
+              android:paddingLeft="@dimen/thread_chats_left"
               android:maxLines="1"
-              android:layout_gravity="right"
-              android:gravity="right"
+              android:layout_gravity="bottom"
               android:textSize="@dimen/thread_subscript_textsize"
+              android:text="127"
             />
 
-    <ImageView android:id="@+id/thread_list_item_chaticon"
-               android:layout_width="@dimen/thread_icon"
-               android:layout_height="@dimen/thread_icon"
-               android:layout_marginTop="@dimen/thread_chats_top_icon"
-               android:layout_marginRight="@dimen/thread_outer"
-               android:layout_gravity="right"
-               android:src="@drawable/speech_bubble"
-            />
+        <ImageView android:id="@+id/thread_list_item_chaticon"
+                   android:layout_width="@dimen/thread_icon"
+                   android:layout_height="@dimen/thread_icon"
+                   android:layout_marginLeft="@dimen/thread_thumb_width_margined"
+                   android:layout_gravity="bottom"
+                   android:src="@drawable/speech_bubble"
+                />
 
-    <TextView android:id="@+id/thread_list_item_images"
-              android:layout_width="@dimen/thread_right_minus_icon"
-              android:layout_height="@dimen/thread_half"
-              android:layout_marginTop="@dimen/thread_images_top"
-              android:layout_marginRight="@dimen/thread_icon_outer"
-              android:paddingRight="@dimen/thread_inner"
-              android:paddingBottom="@dimen/thread_inner"
-              android:maxLines="1"
-              android:layout_gravity="right"
-              android:gravity="right"
-              android:textSize="@dimen/thread_subscript_textsize"
-            />
+        <TextView android:id="@+id/thread_list_item_chats_noimage"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/thread_outer"
+                  android:paddingLeft="@dimen/thread_chats_left"
+                  android:maxLines="1"
+                  android:layout_gravity="bottom"
+                  android:textSize="@dimen/thread_subscript_textsize"
+                  android:text="127"
+                />
 
-    <ImageView android:id="@+id/thread_list_item_imageicon"
-               android:layout_width="@dimen/thread_icon"
-               android:layout_height="@dimen/thread_icon"
-               android:layout_marginTop="@dimen/thread_images_top_icon"
-               android:layout_marginRight="@dimen/thread_outer"
-               android:layout_gravity="right"
-               android:src="@drawable/photo"
-            />
+        <ImageView android:id="@+id/thread_list_item_chaticon_noimage"
+                   android:layout_width="@dimen/thread_icon"
+                   android:layout_height="@dimen/thread_icon"
+                   android:layout_marginLeft="@dimen/thread_outer"
+                   android:layout_gravity="bottom"
+                   android:src="@drawable/speech_bubble"
+                />
 
+        <!--
+        <TextView android:id="@+id/thread_list_item_images"
+                  android:layout_width="@dimen/thread_right_minus_icon"
+                  android:layout_height="@dimen/thread_half"
+                  android:layout_marginTop="@dimen/thread_images_top"
+                  android:layout_marginRight="@dimen/thread_icon_outer"
+                  android:paddingRight="@dimen/thread_inner"
+                  android:paddingBottom="@dimen/thread_inner"
+                  android:maxLines="1"
+                  android:layout_gravity="right"
+                  android:gravity="right"
+                  android:textSize="@dimen/thread_subscript_textsize"
+                />
+
+        <ImageView android:id="@+id/thread_list_item_imageicon"
+                   android:layout_width="@dimen/thread_icon"
+                   android:layout_height="@dimen/thread_icon"
+                   android:layout_marginRight="@dimen/thread_outer"
+                   android:layout_gravity="right|bottom"
+                   android:src="@drawable/photo"
+                />
+        -->
     <ImageView android:id="@+id/thread_list_item_adult"
                android:layout_width="@dimen/thread_icon"
                android:layout_height="@dimen/thread_icon"
-               android:layout_marginTop="@dimen/thread_adult_top"
                android:layout_marginRight="@dimen/thread_outer"
-               android:layout_gravity="right"
+               android:layout_gravity="top|right"
                android:src="@drawable/heart"
             />
 

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.*;
 import com.android.volley.toolbox.NetworkImageView;
@@ -31,7 +33,8 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     private static final int CONTENT_ID = R.id.thread_list_item_content;
     private static final int FOOTER_ID = R.id.thread_list_item_footer;
     private static final int IMAGE_ID = R.id.thread_list_item_image;
-    private static final int REPLY_ID = R.id.thread_list_item_reply;
+    //private static final int REPLY_ID = R.id.thread_list_item_reply;
+    //private static final int TRASH_ID = R.id.thread_list_item_trash;
 
     private final Object mLock = new Object();
     //private ThreadDetailType mDetailType = ThreadDetailType.CHATS;
@@ -110,50 +113,12 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
         String url = item.thumbUrl();
         setContentText(view, CONTENT_ID, item.content);
-        setReplyView(view.findViewById(REPLY_ID), item.content);
+        //setReplyView(view.findViewById(REPLY_ID), item.content);
+        //setTrashView(view.findViewById(TRASH_ID), item.id);
         smartSetNetworkImageView(url, image);
         setImageDialogClickListener(item, image);
+        //setBrowseImageClickListener(url, image);
         return view;
-    }
-
-    private void setReplyView(View view, final String content) {
-        if (view == null) {
-            return;
-        }
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View layout = ((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                        .inflate(R.layout.dialog_reply_thread_item, null);
-                final EditText reply = (EditText)layout.findViewById(R.id.thread_text);
-                reply.setText(replyText(content));
-                (new AlertDialog.Builder(getContext()))
-                        .setTitle(null)
-                        .setView(layout)
-                        .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                doReply(reply.getText().toString());
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .create()
-                        .show();
-            }
-        });
-    }
-
-    private String replyText(String precontent) {
-        String content = precontent.trim().replaceAll("\n", "\n>");
-        String text = (new StringBuilder())
-                .append(content)
-                .append("\n")
-                .toString();
-        return text;
-    }
-
-    private void doReply(String replyText) {
-        Toast.makeText(getContext(), "replying...", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -168,7 +133,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         setImageDialogClickListener(item, image);
         return view;
     }
-
+    */
     private void setBrowseImageClickListener(final String url, View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,11 +142,14 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             }
         });
     }
-    */
+
     private void browse(final String url) {
         Activity activity = getContext() instanceof Activity ? (Activity) getContext() : null;
         if (activity != null) {
-            activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            activity.startActivityForResult(intent, 0);
+            activity.overridePendingTransition(0, 0);
         }
     }
 
@@ -300,9 +268,31 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayImageDialog(url, id, width, height);
+                Point q = scaledToScreen(new Point(width, height));
+                displayImageDialog(url, id, q.x, q.y);
             }
         });
+    }
+
+    private static final float MAX_SCALE = 2.0f;
+
+    private Point scaledToScreen(Point p) {
+        DisplayMetrics m = getContext().getResources().getDisplayMetrics();
+        Point screen = new Point(m.widthPixels, m.heightPixels);
+        float scaleX = screen.x / p.x;
+        float scaleY = screen.y / p.y;
+        float scale = Math.min(scaleX, scaleY);
+        float finalScale;
+        if (scale < 1) {
+            finalScale = 1;
+        }
+        else if (scale > MAX_SCALE) {
+            finalScale = MAX_SCALE;
+        }
+        else {
+            finalScale = scale;
+        }
+        return new Point((int)finalScale * p.x, (int)finalScale * p.y);
     }
 
     private void displayImageDialog(final String url, final String id, final int width, final int height) {
@@ -316,12 +306,12 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
             final ImageSizingWebView webView = (ImageSizingWebView) dialog.findViewById(R.id.web_view);
             webView.setImageSize(width, height);
             webView.loadUrl(url);
-            final ImageView downloadButton = (ImageView)dialog.findViewById(R.id.download_button);
-            setDownloadListener(url, id, downloadButton, new ImageDialogCallback() {
-                public void dismiss() {
-                    dialog.dismiss();
-                }
-            });
+            //final ImageView downloadButton = (ImageView)dialog.findViewById(R.id.download_button);
+            //setDownloadListener(url, id, downloadButton, new ImageDialogCallback() {
+            //    public void dismiss() {
+            //        dialog.dismiss();
+            //    }
+            //});
             dialog.show();
         }
     }

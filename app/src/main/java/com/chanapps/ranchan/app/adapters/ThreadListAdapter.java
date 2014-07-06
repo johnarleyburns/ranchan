@@ -27,9 +27,12 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
     private static final int CONTENT_WITHIMAGE_ID = R.id.thread_list_item_content_withimage;
     private static final int CONTENT_NOIMAGE_ID = R.id.thread_list_item_content_noimage;
     private static final int CHATS_ID = R.id.thread_list_item_chats;
+    private static final int CHATS_NOIMAGE_ID = R.id.thread_list_item_chats_noimage;
+    private static final int CHATS_ICON_ID = R.id.thread_list_item_chaticon;
+    private static final int CHATS_ICON_NOIMAGE_ID = R.id.thread_list_item_chaticon_noimage;
     private static final int DATE_ID = R.id.thread_list_item_date;
     private static final int THUMB_ID = R.id.thread_list_item_thumb;
-    private static final int IMAGES_ID = R.id.thread_list_item_images;
+    //private static final int IMAGES_ID = R.id.thread_list_item_images;
     private static final int ADULT_ID = R.id.thread_list_item_adult;
 
     private final Object mLock = new Object();
@@ -56,22 +59,28 @@ public class ThreadListAdapter extends ArrayAdapter<ThreadItem> {
             view = convertView;
         }
 
-        ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
-        ((TextView) view.findViewById(IMAGES_ID)).setText(String.valueOf(item.images));
         ((TextView) view.findViewById(DATE_ID)).setText(item.shortDate(getContext()));
         view.findViewById(ADULT_ID).setVisibility(item.adult() ? View.VISIBLE : View.INVISIBLE);
 
         NetworkImageView thumb = (NetworkImageView) view.findViewById(THUMB_ID);
         String url = item.thumbUrl();
         if (url == null) {
+            ((TextView) view.findViewById(CHATS_ID)).setText(null);
+            ((TextView) view.findViewById(CHATS_NOIMAGE_ID)).setText(String.valueOf(item.chats));
             ((TextView) view.findViewById(CONTENT_WITHIMAGE_ID)).setText(null);
+            view.findViewById(CHATS_ICON_ID).setVisibility(View.INVISIBLE);
+            view.findViewById(CHATS_ICON_NOIMAGE_ID).setVisibility(View.VISIBLE);
             setContentText(view, CONTENT_NOIMAGE_ID, item);
             thumb.setDefaultImageResId(0);
             thumb.setErrorImageResId(0);
             thumb.setImageUrl(null, VolleySingleton.getInstance().getImageLoader());
         }
         else {
+            ((TextView) view.findViewById(CHATS_ID)).setText(String.valueOf(item.chats));
+            ((TextView) view.findViewById(CHATS_NOIMAGE_ID)).setText(null);
             ((TextView) view.findViewById(CONTENT_NOIMAGE_ID)).setText(null);
+            view.findViewById(CHATS_ICON_ID).setVisibility(View.VISIBLE);
+            view.findViewById(CHATS_ICON_NOIMAGE_ID).setVisibility(View.INVISIBLE);
             setContentText(view, CONTENT_WITHIMAGE_ID, item);
             thumb.setDefaultImageResId(R.drawable.pre_content);
             thumb.setErrorImageResId(R.drawable.no_content);
