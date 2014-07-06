@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout
+<com.chanapps.ranchan.app.views.CheckableFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/thread_list_item"
         android:layout_width="match_parent"
@@ -78,4 +78,12 @@
 
     </LinearLayout>
 
-</FrameLayout>
+    <com.chanapps.ranchan.app.views.InertCheckBox
+            android:id="@+id/thread_list_item_checkbox"
+            android:layout_width="@dimen/thread_detail_checkbox"
+            android:layout_height="@dimen/thread_detail_checkbox"
+            android:background="@color/checkbox_opacity"
+            android:focusable="false"
+            />
+
+</com.chanapps.ranchan.app.views.CheckableFrameLayout>

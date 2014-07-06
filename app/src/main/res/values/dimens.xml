@@ -46,5 +46,6 @@
     <dimen name="thread_detail_mid">12dp</dimen>
     <dimen name="thread_detail_icon_right">24dp</dimen>
     <dimen name="thread_detail_footer_right">56dp</dimen>
+    <dimen name="thread_detail_checkbox">32dp</dimen>
 
 </resources>

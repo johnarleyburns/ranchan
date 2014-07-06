@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout
+<com.chanapps.ranchan.app.views.CheckableFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/thread_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/thread_outer"
         android:paddingRight="@dimen/thread_outer"
+        android:foreground="@drawable/thread_detail_item_selector"
         >
 
     <LinearLayout
@@ -41,7 +42,7 @@
                   android:layout_height="wrap_content"
                   android:textAppearance="?android:attr/textAppearanceListItemSmall"
                   android:textSize="@dimen/thread_content_textsize"
-                  android:textIsSelectable="true"
+                  android:textIsSelectable="false"
                   android:autoLink="web"
                   android:layout_gravity="right"
                   android:gravity="right"
@@ -58,4 +59,12 @@
 
     </LinearLayout>
 
-</FrameLayout>
+    <com.chanapps.ranchan.app.views.InertCheckBox
+            android:id="@+id/thread_list_item_checkbox"
+            android:layout_width="@dimen/thread_detail_checkbox"
+            android:layout_height="@dimen/thread_detail_checkbox"
+            android:background="@color/checkbox_opacity"
+            android:focusable="false"
+            />
+
+</com.chanapps.ranchan.app.views.CheckableFrameLayout>

@@ -2,9 +2,12 @@ package com.chanapps.ranchan.app.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -154,12 +157,14 @@ public class ThreadDetailFragment extends ListFragment implements View.OnCreateC
             public void onDestroyActionMode(ActionMode mode) {
                 // Here you can make any necessary updates to the activity when
                 // the CAB is removed. By default, selected items are deselected/unchecked.
+                mAdapter.onDestroyActionMode();
             }
 
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                 // Here you can perform updates to the CAB due to
                 // an invalidate() request
+                mAdapter.onPrepareActionMode();
                 return false;
             }
         });
@@ -201,6 +206,31 @@ public class ThreadDetailFragment extends ListFragment implements View.OnCreateC
             ids += mAdapter.getItem(position).id + " ";
         }
         Toast.makeText(getActivity(), "download " + ids, Toast.LENGTH_SHORT).show();
+
+        List<ThreadItem> items = checkedItems();
+        for (ThreadItem item : items) {
+            queueDownload(item.imageUrl(), item.id);
+        }
+    }
+
+    private void queueDownload(final String url, final String itemId) {
+        Context context = getActivity();
+        if (context == null || url == null || url.length() == 0) {
+            return;
+        }
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request r = new DownloadManager.Request(uri);
+        // This put the download in the same Download dir the browser uses
+        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, itemId);
+        // When downloading music and videos they will be listed in the player
+        // (Seems to be available since Honeycomb only)
+        r.allowScanningByMediaScanner();
+        // Notify user when download is completed
+        // (Seems to be available since Honeycomb only)
+        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // Start download
+        DownloadManager dm = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        dm.enqueue(r);
     }
 
     private void delete() {

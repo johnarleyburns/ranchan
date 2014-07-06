@@ -33,6 +33,7 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     private static final int CONTENT_ID = R.id.thread_list_item_content;
     private static final int FOOTER_ID = R.id.thread_list_item_footer;
     private static final int IMAGE_ID = R.id.thread_list_item_image;
+    private static final int CHECKBOX_ID = R.id.thread_list_item_checkbox;
     //private static final int REPLY_ID = R.id.thread_list_item_reply;
     //private static final int TRASH_ID = R.id.thread_list_item_trash;
 
@@ -42,6 +43,8 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
     private SharedPreferences prefs;
     public List<ThreadItem> mItemsArray; // base data
     public List<ThreadItem> mItems; // filtered data
+
+    private boolean mActionMode;
 
     public ThreadDetailAdapter(Context context, List<ThreadItem> objects) {
         super(context, ITEM_LAYOUT_ID, objects);
@@ -113,12 +116,23 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
         NetworkImageView image = (NetworkImageView) view.findViewById(IMAGE_ID);
         String url = item.thumbUrl();
         setContentText(view, CONTENT_ID, item.content);
+        setCheckbox(view, CHECKBOX_ID);
         //setReplyView(view.findViewById(REPLY_ID), item.content);
         //setTrashView(view.findViewById(TRASH_ID), item.id);
         smartSetNetworkImageView(url, image);
         setImageDialogClickListener(item, image);
         //setBrowseImageClickListener(url, image);
         return view;
+    }
+
+    private void setCheckbox(View view, int layoutId) {
+        CheckBox box = (CheckBox)view.findViewById(layoutId);
+        if (mActionMode) {
+            box.setVisibility(View.VISIBLE);
+        }
+        else {
+            box.setVisibility(View.GONE);
+        }
     }
 
     /*
@@ -341,6 +355,14 @@ public class ThreadDetailAdapter extends ArrayAdapter<ThreadItem> {
                 callback.dismiss();
             }
         });
+    }
+
+    public void onPrepareActionMode() {
+        mActionMode = true;
+    }
+
+    public void onDestroyActionMode() {
+        mActionMode = false;
     }
 
 }

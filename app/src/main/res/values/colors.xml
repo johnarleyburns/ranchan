@@ -5,4 +5,6 @@
 
     <color name="tint_color_selected">#8833b5e5</color>
 
+    <color name="checkbox_opacity">#88000000</color>
+
 </resources>
